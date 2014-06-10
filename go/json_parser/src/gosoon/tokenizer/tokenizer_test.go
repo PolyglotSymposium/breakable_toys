@@ -14,9 +14,17 @@ var _ = Describe("Tokenizer", func() {
 		tokenizer Tokenizer
 	)
 
-	BeforeEach(func() {
-		tokenizer = Tokenizer{
-			InitialText: "something",
-		}
+	Describe(".tok", func() {
+		Context("With a colon", func() {
+			BeforeEach(func() {
+				tokenizer = Tokenizer{
+					InitialText: ":",
+				}
+			})
+
+			It("should return tokens containing only a Colon", func() {
+				Fail("TODO")
+			})
+		})
 	})
 })
