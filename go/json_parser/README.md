@@ -8,6 +8,9 @@ gvm install go1.2
 
 # Default to use 1.2
 gvm use 1.2
+
+# Set GOPATH to this folder
+export GOPATH=....
 ```
 
 # Version reported by `go version`:
