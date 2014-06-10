@@ -1,6 +1,13 @@
 # How I installed go:
 ```
-sudo apt-get install golang-go
+# Get gvm
+bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+
+# Install go1.2
+gvm install go1.2
+
+# Default to use 1.2
+gvm use 1.2
 ```
 
 # Version reported by `go version`:
