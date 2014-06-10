@@ -15,7 +15,7 @@ export GOPATH=....
 
 # Version reported by `go version`:
 ```
-go1
+go1.2
 ```
 
 # Extras
