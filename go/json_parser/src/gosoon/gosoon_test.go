@@ -4,6 +4,7 @@ import (
 	. "gosoon"
 
 	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("Gosoon", func() {
@@ -20,7 +21,7 @@ var _ = Describe("Gosoon", func() {
 			})
 
 			It("Should return an empty slice of JSON objects", func() {
-				Fail("TODO")
+				Expect(parser.Parse()).To(Equal([]JsonObject{}))
 			})
 		})
 	})
