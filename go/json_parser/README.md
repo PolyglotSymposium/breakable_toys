@@ -22,3 +22,8 @@ go1.2
 ```
 sudo apt-get install vim-syntax-go
 ```
+
+I found it necessary to add this to my `~/.vimrc` on Linux
+
+    set runtimepath+=$GOROOT/misc/vim
+    autocmd BufNewFile,BufRead *.go         setfiletype go
