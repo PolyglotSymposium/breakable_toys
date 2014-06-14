@@ -1,0 +1,9 @@
+# Vim
+Session.vim
+*.swo
+*.swp
+
+*.exe
+bin/
+pkg/
+src/github.com/
