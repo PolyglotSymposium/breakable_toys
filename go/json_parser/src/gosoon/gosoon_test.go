@@ -19,9 +19,19 @@ var _ = Describe("Gosoon", func() {
                 jsonText = "[]"
 			})
 
-			It("Should return an empty slice of JSON objects", func() {
-				Expect(parser.Parse(jsonText)).To(Equal([]JsonObject{}))
+			It("Should return a JsonObject with no children", func() {
+				Expect(parser.Parse(jsonText).ElementCount()).To(Equal(0))
 			})
+
+            It("Should return a JsonObject whose type is an Array", func() {
+				Expect(parser.Parse(jsonText).Type()).To(Equal("Array"))
+            })
 		})
+
+        Context("When given an empty JSON object", func() {
+            It("Should return an empty JSON object", func() {
+                Expect(parser.Parse("{}")).To(Equal(JsonObject{}))
+            })
+        })
 	})
 })
