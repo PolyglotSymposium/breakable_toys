@@ -10,18 +10,17 @@ import (
 var _ = Describe("Gosoon", func() {
 	var (
 		parser Parser
+        jsonText string
 	)
 
 	Describe("the parse method", func() {
 		Context("When given an empty JSON array", func() {
 			BeforeEach(func() {
-				parser = Parser {
-					InitialText: "[]",
-				}
+                jsonText = "[]"
 			})
 
 			It("Should return an empty slice of JSON objects", func() {
-				Expect(parser.Parse()).To(Equal([]JsonObject{}))
+				Expect(parser.Parse(jsonText)).To(Equal([]JsonObject{}))
 			})
 		})
 	})

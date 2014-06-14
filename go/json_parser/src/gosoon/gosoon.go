@@ -1,10 +1,8 @@
 package gosoon
 
-type Parser struct {
-	InitialText string
-}
+type Parser struct { }
 
-func (p *Parser) Parse() []JsonObject {
+func (p *Parser) Parse(jsonText string) []JsonObject {
 	return []JsonObject{}
 }
 
