@@ -28,6 +28,16 @@ var _ = Describe("Gosoon", func() {
             })
 		})
 
+		Context("When given an nonempty JSON array", func() {
+			BeforeEach(func() {
+                subject = parser.Parse("[3]")
+			})
+
+			It("Should return a JsonNode with no children", func() {
+				Expect(subject.ElementCount()).To(Equal(1))
+			})
+		})
+
         Context("When given an empty JSON object", func() {
 			BeforeEach(func() {
                 subject = parser.Parse("{}")
