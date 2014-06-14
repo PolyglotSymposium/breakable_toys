@@ -29,13 +29,17 @@ var _ = Describe("Gosoon", func() {
 		})
 
 		Context("When given an nonempty JSON array", func() {
-			BeforeEach(func() {
-                subject = parser.Parse("[3]")
-			})
+            Context("And the JSON array contains one element", func() {
+                It("Should return a JsonNode with one child", func() {
+                    Expect(parser.Parse("[3]").ElementCount()).To(Equal(1))
+                })
+            })
 
-			It("Should return a JsonNode with no children", func() {
-				Expect(subject.ElementCount()).To(Equal(1))
-			})
+            Context("And the JSON array contains two elements", func() {
+                It("Should return a JsonNode with two elements", func() {
+                    Expect(parser.Parse("[3,5]").ElementCount()).To(Equal(2))
+                })
+            })
 		})
 
         Context("When given an empty JSON object", func() {

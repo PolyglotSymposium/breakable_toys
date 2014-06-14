@@ -2,6 +2,7 @@ package gosoon
 
 import (
     "unicode/utf8"
+    "strings"
 )
 
 const (
@@ -29,8 +30,9 @@ func NewJsonObject() JsonNode {
 
 func NewJsonArray(jsonText string) JsonNode {
     elementCount := 0
-    if utf8.RuneCountInString(jsonText) > 2 {
-        elementCount = 1
+    innerText := jsonText[1:len(jsonText)-1]
+    if utf8.RuneCountInString(innerText) > 0 {
+        elementCount = len(strings.Split(innerText, ","))
     }
     return JsonNode { _type: JsonArray, _elementCount: elementCount }
 }
