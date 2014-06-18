@@ -23,10 +23,13 @@ func (p *Parser) Parse(jsonText string) JsonNode {
 type JsonNode struct {
     _type int
     _elementCount int
+    NumericValue float64
 }
 
 func NewJsonNumber() JsonNode {
-    return JsonNode { _type: JsonNumber }
+    jsonNumber := JsonNode { _type: JsonNumber }
+    jsonNumber.NumericValue = 3.0
+    return jsonNumber
 }
 
 func NewJsonObject() JsonNode {
