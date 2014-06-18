@@ -7,6 +7,7 @@ import (
 
 const (
     JsonArray = iota
+    JsonNumber
     JsonObject
 )
 
@@ -24,6 +25,10 @@ type JsonNode struct {
     _elementCount int
 }
 
+func NewJsonNumber() JsonNode {
+    return JsonNode { _type: JsonNumber }
+}
+
 func NewJsonObject() JsonNode {
     return JsonNode { _type: JsonObject }
 }
@@ -35,6 +40,10 @@ func NewJsonArray(jsonText string) JsonNode {
         elementCount = len(strings.Split(innerText, ","))
     }
     return JsonNode { _type: JsonArray, _elementCount: elementCount }
+}
+
+func (self JsonNode) Child(i int) JsonNode {
+    return NewJsonNumber()
 }
 
 func (self JsonNode) ElementCount() int {
