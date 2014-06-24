@@ -32,6 +32,16 @@ var _ = Describe("Gosoon", func() {
                     Expect(subject.Phrase).To(Equal(""))
                 })
             })
+
+            Context("When given a JSON object with a string field (1 char), whose attribute matches the databag's", func() {
+                BeforeEach(func() {
+                    subject = (BlueJson{}).Deserialize("{ \"Phrase\": \"a\" }", TestBag{}).(TestBag)
+                })
+
+                It("Should have the JSON value for the string field", func() {
+                    Expect(subject.Phrase).To(Equal("a"))
+                })
+            })
         })
     })
 })
