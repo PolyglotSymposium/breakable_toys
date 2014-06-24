@@ -15,12 +15,11 @@ func (self BlueJson) Deserialize(json string, toFill interface{}) interface{} {
     })
 
     for i := range fields {
-        pairs := strings.FieldsFunc(fields[i], func(r rune) bool {
+        _ = strings.FieldsFunc(fields[i], func(r rune) bool {
             return r == ','
         })
 
-        typ := reflect.TypeOf(toFill)
-
+        _ = reflect.TypeOf(toFill)
     }
 
     return toFill
