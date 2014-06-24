@@ -9,6 +9,7 @@ import (
 
 type TestBag struct {
     Count int
+    Phrase string
 }
 
 var _ = Describe("Gosoon", func() {
@@ -23,8 +24,12 @@ var _ = Describe("Gosoon", func() {
                     subject = (BlueJson{}).Deserialize("{}", TestBag{}).(TestBag)
                 })
 
-                It("Should have the default value for its field", func() {
+                It("Should have the default value for its integer field", func() {
                     Expect(subject.Count).To(Equal(0))
+                })
+
+                It("Should have the default value for its string field", func() {
+                    Expect(subject.Phrase).To(Equal(""))
                 })
             })
         })
