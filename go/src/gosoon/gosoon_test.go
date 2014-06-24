@@ -9,6 +9,10 @@ import (
 
 type Blank struct {}
 
+type OneAttribute struct {
+    GilliRocks bool
+}
+
 type TestBag struct {
     Count int
     Phrase string
@@ -44,10 +48,25 @@ var _ = Describe("Gosoon", func() {
                     subject = (BlueJson{}).Deserialize("{ \"Phrase\": \"a\" }", Blank{}).(Blank)
                 })
 
-                XIt("Should return a blank object", func() {
+                It("Should return a blank object", func() {
                     Expect(subject).To(Equal(Blank{}))
                 })
             })
+
+            Context("When none of the properties on the JSON match the object's properties", func() {
+                var (
+                    subject OneAttribute
+                )
+
+                BeforeEach(func() {
+                    subject = (BlueJson{}).Deserialize("{ \"Phrase\": \"a\" }", OneAttribute{}).(OneAttribute)
+                })
+
+                It("Should return a blank object", func() {
+                    Expect(subject).To(Equal(OneAttribute{}))
+                })
+            })
+
 
             Context("When given a JSON object with a string field (1 char), whose attribute matches the databag's", func() {
                 var (
