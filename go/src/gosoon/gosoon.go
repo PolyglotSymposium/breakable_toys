@@ -6,7 +6,7 @@ import (
 )
 
 type BlueJson struct {
-    Mappings map[string]reflect.Type
+    Mappings map[string]reflect.Kind
 }
 
 func (self BlueJson) Deserialize(json string, toFill interface{}) interface{} {
@@ -14,5 +14,5 @@ func (self BlueJson) Deserialize(json string, toFill interface{}) interface{} {
 }
 
 func (self *BlueJson) Inspect(me interface{}) {
-    self.Mappings = map[string]reflect.Type{}
+    self.Mappings = map[string]reflect.Kind{}
 }

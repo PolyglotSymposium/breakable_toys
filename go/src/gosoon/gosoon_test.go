@@ -22,18 +22,30 @@ type TestBag struct {
 var _ = Describe("Gosoon", func() {
     Describe("BlueJson", func() {
         Describe(".Inspect", func() {
+            blueJson := BlueJson{}
             Context("when given an object with no attbitutes", func() {
-                blueJson := BlueJson{}
-
                 BeforeEach(func() {
                     blueJson.Inspect(Blank{})
                 })
 
                 Describe(".Mappings", func() {
                     It("Should return an empty set of mappings", func() {
-                        Expect(blueJson.Mappings).To(Equal(map[string]reflect.Type{}))
+                        Expect(blueJson.Mappings).To(Equal(map[string]reflect.Kind{}))
                     })
                 })
+            })
+
+            Context("When given an object with one attribute, of type bool", func(){
+                BeforeEach(func() {
+                    blueJson.Inspect(Blank{})
+                })
+
+                Describe(".Mappings", func() {
+                    XIt("Should return a set of mappings from the attribute's name to its boolean type", func() {
+                        Expect(blueJson.Mappings).To(Equal(map[string]reflect.Kind{"GilliRocks": reflect.Bool}))
+                    })
+                })
+
             })
         })
         Describe(".Deserialize", func() {
