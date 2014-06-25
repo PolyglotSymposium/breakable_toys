@@ -37,11 +37,11 @@ var _ = Describe("Gosoon", func() {
 
             Context("When given an object with one attribute, of type bool", func(){
                 BeforeEach(func() {
-                    blueJson.Inspect(Blank{})
+                    blueJson.Inspect(OneAttribute{})
                 })
 
                 Describe(".Mappings", func() {
-                    XIt("Should return a set of mappings from the attribute's name to its boolean type", func() {
+                    It("Should return a set of mappings from the attribute's name to its boolean type", func() {
                         Expect(blueJson.Mappings).To(Equal(map[string]reflect.Kind{"GilliRocks": reflect.Bool}))
                     })
                 })

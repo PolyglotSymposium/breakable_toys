@@ -14,5 +14,11 @@ func (self BlueJson) Deserialize(json string, toFill interface{}) interface{} {
 }
 
 func (self *BlueJson) Inspect(me interface{}) {
+    reflector := reflect.TypeOf(me)
+
     self.Mappings = map[string]reflect.Kind{}
+
+    if reflector.NumField() > 0 {
+        self.Mappings["GilliRocks"] = reflect.Bool
+    }
 }
