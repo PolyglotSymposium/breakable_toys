@@ -19,6 +19,7 @@ func (self *BlueJson) Inspect(me interface{}) {
     self.Mappings = map[string]reflect.Kind{}
 
     if reflector.NumField() > 0 {
-        self.Mappings["GilliRocks"] = reflect.Bool
+        pair := reflector.Field(0)
+        self.Mappings[pair.Name] = pair.Type.Kind()
     }
 }
