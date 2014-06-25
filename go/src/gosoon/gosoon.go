@@ -22,4 +22,9 @@ func (self *BlueJson) Inspect(me interface{}) {
         pair := reflector.Field(0)
         self.Mappings[pair.Name] = pair.Type.Kind()
     }
+
+    if reflector.NumField() > 1 {
+        pair := reflector.Field(1)
+        self.Mappings[pair.Name] = pair.Type.Kind()
+    }
 }

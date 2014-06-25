@@ -14,8 +14,8 @@ type OneAttribute struct {
     GilliRocks bool
 }
 
-type TestBag struct {
-    Count int
+type TwoAttributes struct {
+    KeithWouldLikeThisNameCuzCSharp int
     Phrase string
 }
 
@@ -47,19 +47,31 @@ var _ = Describe("Gosoon", func() {
                 })
 
             })
+            Context("When given an object with two attributes", func(){
+                BeforeEach(func() {
+                    blueJson.Inspect(TwoAttributes{})
+                })
+
+                Describe(".Mappings", func() {
+                    It("Should return a set of mappings from the attribute's names to its types", func() {
+                        Expect(blueJson.Mappings).To(Equal(map[string]reflect.Kind{"KeithWouldLikeThisNameCuzCSharp": reflect.Int, "Phrase": reflect.String }))
+                    })
+                })
+            })
+
         })
         Describe(".Deserialize", func() {
             Context("When given an empty JSON array", func() {
                 var (
-                    subject TestBag
+                    subject TwoAttributes
                 )
 
                 BeforeEach(func() {
-                    subject = (BlueJson{}).Deserialize("{}", TestBag{}).(TestBag)
+                    subject = (BlueJson{}).Deserialize("{}", TwoAttributes{}).(TwoAttributes)
                 })
 
                 It("Should have the default value for its integer field", func() {
-                    Expect(subject.Count).To(Equal(0))
+                    Expect(subject.KeithWouldLikeThisNameCuzCSharp).To(Equal(0))
                 })
 
                 It("Should have the default value for its string field", func() {
@@ -98,11 +110,11 @@ var _ = Describe("Gosoon", func() {
 
             Context("When given a JSON object with a string field (1 char), whose attribute matches the databag's", func() {
                 var (
-                    subject TestBag
+                    subject TwoAttributes
                 )
 
                 BeforeEach(func() {
-                    subject = (BlueJson{}).Deserialize("{ \"Phrase\": \"a\" }", TestBag{}).(TestBag)
+                    subject = (BlueJson{}).Deserialize("{ \"Phrase\": \"a\" }", TwoAttributes{}).(TwoAttributes)
                 })
 
                 XIt("Should have the JSON value for the string field", func() {
