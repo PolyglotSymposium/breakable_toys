@@ -18,15 +18,8 @@ func (self *BlueJson) Inspect(me interface{}) {
 
     self.Mappings = map[string]reflect.Kind{}
 
-    i := reflector.NumField()
-
-    if i > 0 {
-        pair := reflector.Field(0)
-        self.Mappings[pair.Name] = pair.Type.Kind()
-    }
-
-    if i > 1 {
-        pair := reflector.Field(1)
-        self.Mappings[pair.Name] = pair.Type.Kind()
+    for i := reflector.NumField()-1; i >= 0; i -= 1 {
+        field := reflector.Field(i)
+        self.Mappings[field.Name] = field.Type.Kind()
     }
 }
