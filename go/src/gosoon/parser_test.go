@@ -27,7 +27,7 @@ var _ = Describe("Lazy JSON parser", func() {
             Expect(len(parsedMap)).To(Equal(1))
         })
         It("Should return a map with the key and value set appropriately", func() {
-            Expect(parsedMap["\"a\""]).To(Equal(Json("\"A\"")))
+            Expect(parsedMap["a"]).To(Equal(Json("\"A\"")))
         })
     })
 })
