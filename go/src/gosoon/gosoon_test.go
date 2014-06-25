@@ -5,6 +5,7 @@ import (
 
     . "github.com/onsi/ginkgo"
     . "github.com/onsi/gomega"
+    "reflect"
 )
 
 type Blank struct {}
@@ -20,6 +21,21 @@ type TestBag struct {
 
 var _ = Describe("Gosoon", func() {
     Describe("BlueJson", func() {
+        Describe(".Inspect", func() {
+            Context("when given an object with no attbitutes", func() {
+                blueJson := BlueJson{}
+
+                BeforeEach(func() {
+                    blueJson.Inspect(Blank{})
+                })
+
+                Describe(".Mappings", func() {
+                    It("Should return an empty set of mappings", func() {
+                        Expect(blueJson.Mappings).To(Equal(map[string]reflect.Type{}))
+                    })
+                })
+            })
+        })
         Describe(".Deserialize", func() {
             Context("When given an empty JSON array", func() {
                 var (
