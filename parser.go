@@ -21,5 +21,6 @@ func (self LazilyParsedJson) ParseOneLevel() map[string]LazilyParsedJson {
 }
 
 func (self LazilyParsedJson) ParseAsString() string {
-    return self.unparsedJson[1:len(self.unparsedJson)-1]
+    trimmed := strings.TrimSpace(self.unparsedJson)
+    return trimmed[1:len(trimmed)-1]
 }

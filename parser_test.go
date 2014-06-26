@@ -33,12 +33,20 @@ var _ = Describe("Lazy JSON parser", func() {
 
     Context("When parsing JSON to a string", func() {
         var parsedString string
-        Context("When presented with a string surrounding by double-quotes and no extra spaces", func() {
+        Context("When presented with a string surrounded by double-quotes", func() {
             BeforeEach(func() {
                 parsedString = Json("\"6![]i|@nd\"").ParseAsString()
             })
-            It("Should parse everything but the outer quotes as the string", func() {
+            It("Should parse everything inside the quotes as the string", func() {
                 Expect(parsedString).To(Equal("6![]i|@nd"))
+            })
+        })
+        Context("When presented with a string surrounded by whitespace outside the quotes", func() {
+            BeforeEach(func() {
+                parsedString = Json("\t\n \" a1a \" \n\t ").ParseAsString()
+            })
+            It("Should parse everything inside the quotes as the string", func() {
+                Expect(parsedString).To(Equal(" a1a "))
             })
         })
     })
