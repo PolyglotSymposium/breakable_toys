@@ -1,4 +1,10 @@
-# How I installed go:
+# Gosoon
+## JSON serializer/deserializer for Golang
+
+This project is not intended to be a supremely useful JSON library.
+It is just a breakable toy by two aspiring Gophers.
+
+### How I installed go:
 ```
 # Get gvm
 bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
@@ -13,12 +19,12 @@ gvm use 1.2
 export GOPATH=....
 ```
 
-# Version reported by `go version`:
+### Version reported by `go version`:
 ```
 go1.2
 ```
 
-# Extras
+### Extras
 ```
 sudo apt-get install vim-syntax-go
 ```
