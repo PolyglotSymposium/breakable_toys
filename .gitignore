@@ -1,5 +1,6 @@
 *.exe
 *.a
+*.test
 
 # Vim
 Session.vim
