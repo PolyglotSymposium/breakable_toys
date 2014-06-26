@@ -15,7 +15,11 @@ func (self LazilyParsedJson) ParseOneLevel() map[string]LazilyParsedJson {
     keyvalue := strings.Split(self.unparsedJson[1:len(self.unparsedJson)-1], ":")
     if len(keyvalue) > 1 {
         unparsedKey := keyvalue[0]
-        parsedMap[unparsedKey[1:len(unparsedKey)-1]] = Json(keyvalue[1])
+        parsedMap[Json(unparsedKey).ParseAsString()] = Json(keyvalue[1])
     }
     return parsedMap
+}
+
+func (self LazilyParsedJson) ParseAsString() string {
+    return self.unparsedJson[1:len(self.unparsedJson)-1]
 }
