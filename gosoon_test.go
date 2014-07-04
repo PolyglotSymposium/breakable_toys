@@ -11,6 +11,13 @@ type OneStringAttribute struct {
     Phrase string
 }
 
+type MockEmptyObject struct {
+}
+
+func (self MockEmptyObject) AttributeValue(foo string) string {
+    return ""
+}
+
 type MockHasPhraseString struct {
 }
 
@@ -22,19 +29,31 @@ func (self MockHasPhraseString) AttributeValue(foo string) string {
 }
 
 var _ = Describe("Gosoon", func() {
-    Describe(".Deserialize", func() {
-        Context("When given a JSON object with a string field (1 char), whose attribute matches the databag's", func() {
-            var (
-                subject OneStringAttribute
-            )
+    Describe("Deserialize", func() {
+        var (
+            oneStringAttribute OneStringAttribute
+        )
+        BeforeEach(func() {
+            oneStringAttribute = OneStringAttribute{}
+        })
 
+        Context("When given a JSON object with no fields", func() {
             BeforeEach(func() {
-                subject = OneStringAttribute{}
-                Deserialize(MockHasPhraseString{}, &subject)
+                Deserialize(MockEmptyObject{}, &oneStringAttribute)
+            })
+
+            It("Should have an empty value for the string field", func() {
+                Expect(oneStringAttribute.Phrase).To(Equal(""))
+            })
+        })
+
+        Context("When given a JSON object with a string field (1 char), whose attribute matches the databag's", func() {
+            BeforeEach(func() {
+                Deserialize(MockHasPhraseString{}, &oneStringAttribute)
             })
 
             It("Should have the JSON value for the string field", func() {
-                Expect(subject.Phrase).To(Equal("Phrase's value"))
+                Expect(oneStringAttribute.Phrase).To(Equal("Phrase's value"))
             })
         })
     })
