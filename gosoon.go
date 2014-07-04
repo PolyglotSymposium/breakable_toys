@@ -5,10 +5,6 @@ import (
     _"fmt"
 )
 
-func Deserialize(json ParsedJson, toFill interface{}) interface{} {
-
-     mutable := reflect.ValueOf(toFill).Elem()
-     mutable.FieldByName("Phrase").SetString(json.AttributeValue("Phrase"))
-
-    return toFill
+func Deserialize(json ParsedJson, toFill interface{}) {
+     reflect.ValueOf(toFill).Elem().FieldByName("Phrase").SetString(json.AttributeValue("Phrase"))
 }
