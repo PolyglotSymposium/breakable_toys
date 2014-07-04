@@ -2,7 +2,6 @@ package gosoon
 
 import (
     "reflect"
-    _"fmt"
 )
 
 func Deserialize(json ParsedJson, toFill interface{}) {
