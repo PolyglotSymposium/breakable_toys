@@ -6,5 +6,10 @@ import (
 )
 
 func Deserialize(json ParsedJson, toFill interface{}) {
-     reflect.ValueOf(toFill).Elem().FieldByName("Phrase").SetString(json.AttributeValue("Phrase"))
+    if reflect.TypeOf(toFill).Elem().NumField() > 0 {
+        reflect.ValueOf(toFill).
+            Elem().
+            FieldByName("Phrase").
+            SetString(json.AttributeValue("Phrase"))
+    }
 }

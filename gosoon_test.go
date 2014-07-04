@@ -11,6 +11,9 @@ type OneStringAttribute struct {
     Phrase string
 }
 
+type NoAttributes struct {
+}
+
 type MockEmptyObject struct {
 }
 
@@ -37,7 +40,19 @@ var _ = Describe("Gosoon", func() {
             oneStringAttribute = OneStringAttribute{}
         })
 
-        Context("When given a JSON object with no fields", func() {
+        Context("When given a JSON object with no fields, and an Object that has no fields", func() {
+            var noAttributes NoAttributes
+
+            BeforeEach(func() {
+                noAttributes = NoAttributes{}
+            })
+
+            It("Should be okay", func() {
+                Deserialize(MockEmptyObject{}, &noAttributes)
+            })
+        })
+
+        Context("When given a JSON object with no fields, and an Object that has a field", func() {
             BeforeEach(func() {
                 Deserialize(MockEmptyObject{}, &oneStringAttribute)
             })
