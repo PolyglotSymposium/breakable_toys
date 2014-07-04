@@ -33,6 +33,16 @@ func (self MockHasPhraseString) AttributeValue(foo string) string {
     return ""
 }
 
+type MockHasPhraseAndNameStrings struct {}
+
+func (self MockHasPhraseAndNameStrings) AttributeValue(foo string) string {
+    returnMe := (MockHasPhraseString{}).AttributeValue(foo)
+    if foo == "Name" {
+        returnMe = "Alien Bob"
+    }
+    return returnMe 
+}
+
 var _ = Describe("Gosoon", func() {
     Describe("Deserialize", func() {
         var (
@@ -89,5 +99,18 @@ var _ = Describe("Gosoon", func() {
                 Expect(twoStringAttributes.Name).To(Equal(""))
             })
         })
-    })
+
+        Context("When given a JSON object with two string fields whose attributes matches both of the databag's", func() {
+            BeforeEach(func() {
+                Deserialize(MockHasPhraseAndNameStrings{}, &twoStringAttributes)
+            })
+
+            It("Should have the JSON value for the matching string field", func() {
+                Expect(twoStringAttributes.Phrase).To(Equal("Phrase's value"))
+            })
+
+            It("Should have an empty value for the non-matching string field", func() {
+                Expect(twoStringAttributes.Name).To(Equal("Alien Bob"))
+            })
+        })   })
 })

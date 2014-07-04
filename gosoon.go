@@ -14,4 +14,12 @@ func Deserialize(json ParsedJson, toFill interface{}) {
             FieldByName(fieldName).
             SetString(json.AttributeValue(fieldName))
     }
+
+    if typeOfToFill.NumField() > 1 {
+        fieldName := typeOfToFill.Field(1).Name
+        reflect.ValueOf(toFill).
+            Elem().
+            FieldByName(fieldName).
+            SetString(json.AttributeValue(fieldName))
+    }
 }
