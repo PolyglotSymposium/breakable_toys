@@ -2,6 +2,10 @@ package gosoon
 
 import "strings"
 
+type ParsedJson interface {
+    AttributeValue(string) string
+}
+
 type LazilyParsedJson struct {
     unparsedJson string
 }
