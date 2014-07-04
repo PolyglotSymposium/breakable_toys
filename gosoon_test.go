@@ -81,8 +81,12 @@ var _ = Describe("Gosoon", func() {
                 Deserialize(MockHasPhraseString{}, &twoStringAttributes)
             })
 
-            It("Should have the JSON value for the string field", func() {
+            It("Should have the JSON value for the matching string field", func() {
                 Expect(twoStringAttributes.Phrase).To(Equal("Phrase's value"))
+            })
+
+            It("Should have an empty value for the non-matching string field", func() {
+                Expect(twoStringAttributes.Name).To(Equal(""))
             })
         })
     })
