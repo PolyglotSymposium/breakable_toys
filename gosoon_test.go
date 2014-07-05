@@ -9,6 +9,14 @@ import (
 
 type NoFields struct {}
 
+type OnePrivateField struct {
+    phrase string
+}
+
+func (s OnePrivateField) getField() string {
+    return s.phrase
+}
+
 type OneStringField struct {
     Phrase string
 }
@@ -97,6 +105,18 @@ var _ = Describe("Gosoon", func() {
 
             It("Should have an empty value for the non-matching string field", func() {
                 Expect(twoStringFields.Name).To(Equal(""))
+            })
+        })
+
+        Context("When given an empty JSON object and a databag with one, private field", func() {
+            var onePrivateField OnePrivateField
+
+            BeforeEach(func() {
+                Deserialize(MockHasPhraseAndNameStrings{}, &onePrivateField)
+            })
+
+            It("Should have empty string for that field", func() {
+                Expect(onePrivateField.getField()).To(Equal(""))
             })
         })
 
