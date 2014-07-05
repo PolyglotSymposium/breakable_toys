@@ -7,13 +7,13 @@ import (
     . "github.com/onsi/gomega"
 )
 
-type NoAttributes struct {}
+type NoFields struct {}
 
-type OneStringAttribute struct {
+type OneStringField struct {
     Phrase string
 }
 
-type TwoStringAttributes struct {
+type TwoStringFields struct {
     Phrase string
     Name string
 }
@@ -40,77 +40,78 @@ func (self MockHasPhraseAndNameStrings) AttributeValue(foo string) string {
     if foo == "Name" {
         returnMe = "Alien Bob"
     }
-    return returnMe 
+    return returnMe
 }
 
 var _ = Describe("Gosoon", func() {
     Describe("Deserialize", func() {
         var (
-            oneStringAttribute OneStringAttribute
-            twoStringAttributes TwoStringAttributes
+            oneStringField OneStringField
+            twoStringFields TwoStringFields
         )
         BeforeEach(func() {
-            oneStringAttribute = OneStringAttribute{}
-            twoStringAttributes = TwoStringAttributes{}
+            oneStringField = OneStringField{}
+            twoStringFields = TwoStringFields{}
         })
 
         Context("When given a JSON object with no fields, and an Object that has no fields", func() {
-            var noAttributes NoAttributes
+            var noFields NoFields
 
             BeforeEach(func() {
-                noAttributes = NoAttributes{}
+                noFields = NoFields{}
             })
 
             It("Should be okay", func() {
-                Deserialize(MockEmptyObject{}, &noAttributes)
+                Deserialize(MockEmptyObject{}, &noFields)
             })
         })
 
         Context("When given a JSON object with no fields, and an Object that has a field", func() {
             BeforeEach(func() {
-                Deserialize(MockEmptyObject{}, &oneStringAttribute)
+                Deserialize(MockEmptyObject{}, &oneStringField)
             })
 
             It("Should have an empty value for the string field", func() {
-                Expect(oneStringAttribute.Phrase).To(Equal(""))
+                Expect(oneStringField.Phrase).To(Equal(""))
             })
         })
 
         Context("When given a JSON object with a string field whose attribute matches the databag's", func() {
             BeforeEach(func() {
-                Deserialize(MockHasPhraseString{}, &oneStringAttribute)
+                Deserialize(MockHasPhraseString{}, &oneStringField)
             })
 
             It("Should have the JSON value for the string field", func() {
-                Expect(oneStringAttribute.Phrase).To(Equal("Phrase's value"))
+                Expect(oneStringField.Phrase).To(Equal("Phrase's value"))
             })
         })
 
         Context("When given a JSON object with a string field whose attribute matches one of the databag's (who has 2)", func() {
             BeforeEach(func() {
-                Deserialize(MockHasPhraseString{}, &twoStringAttributes)
+                Deserialize(MockHasPhraseString{}, &twoStringFields)
             })
 
             It("Should have the JSON value for the matching string field", func() {
-                Expect(twoStringAttributes.Phrase).To(Equal("Phrase's value"))
+                Expect(twoStringFields.Phrase).To(Equal("Phrase's value"))
             })
 
             It("Should have an empty value for the non-matching string field", func() {
-                Expect(twoStringAttributes.Name).To(Equal(""))
+                Expect(twoStringFields.Name).To(Equal(""))
             })
         })
 
         Context("When given a JSON object with two string fields whose attributes matches both of the databag's", func() {
             BeforeEach(func() {
-                Deserialize(MockHasPhraseAndNameStrings{}, &twoStringAttributes)
+                Deserialize(MockHasPhraseAndNameStrings{}, &twoStringFields)
             })
 
             It("Should have the JSON value for the matching string field", func() {
-                Expect(twoStringAttributes.Phrase).To(Equal("Phrase's value"))
+                Expect(twoStringFields.Phrase).To(Equal("Phrase's value"))
             })
 
             It("Should have an empty value for the non-matching string field", func() {
-                Expect(twoStringAttributes.Name).To(Equal("Alien Bob"))
+                Expect(twoStringFields.Name).To(Equal("Alien Bob"))
             })
-        })   })
+        })
+    })
 })
