@@ -5,15 +5,22 @@ import (
 )
 
 func Deserialize(json ParsedJson, toFill interface{}) {
-    typeOfToFill := reflect.TypeOf(toFill).Elem()
+    typeOfToFill := reflectType(toFill)
 
     for i := 0; i < typeOfToFill.NumField(); i += 1 {
         fieldName := typeOfToFill.Field(i).Name
-        field := reflect.ValueOf(toFill).
-            Elem().
-            FieldByName(fieldName)
+        field := reflectValue(toFill).FieldByName(fieldName)
+
         if field.CanSet() {
             field.SetString(json.AttributeValue(fieldName))
         }
     }
+}
+
+func reflectValue(ofMe interface{}) reflect.Value {
+    return reflect.ValueOf(ofMe).Elem()
+}
+
+func reflectType(ofMe interface{}) reflect.Type {
+    return reflect.TypeOf(ofMe).Elem()
 }
