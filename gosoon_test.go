@@ -62,7 +62,7 @@ var _ = Describe("Gosoon", func() {
             twoStringFields = TwoStringFields{}
         })
 
-        Context("When given a JSON object with no fields, and an Object that has no fields", func() {
+        Context("When given a JSON object with no fields and an object that has no fields", func() {
             var noFields NoFields
 
             BeforeEach(func() {
@@ -74,12 +74,12 @@ var _ = Describe("Gosoon", func() {
             })
         })
 
-        Context("When given a JSON object with no fields, and an Object that has a field", func() {
+        Context("When given a JSON object with no fields and an object that has a field", func() {
             BeforeEach(func() {
                 Deserialize(MockEmptyObject{}, &oneStringField)
             })
 
-            It("Should have an empty value for the string field", func() {
+            It("Should set the object's field to its default value", func() {
                 Expect(oneStringField.Phrase).To(Equal(""))
             })
         })
@@ -94,7 +94,7 @@ var _ = Describe("Gosoon", func() {
             })
         })
 
-        Context("When given a JSON object with a string field whose attribute matches one of the databag's (who has 2)", func() {
+        Context("When given a JSON object with a string field whose attribute matches one of the databag's two fields", func() {
             BeforeEach(func() {
                 Deserialize(MockHasPhraseString{}, &twoStringFields)
             })
@@ -125,11 +125,8 @@ var _ = Describe("Gosoon", func() {
                 Deserialize(MockHasPhraseAndNameStrings{}, &twoStringFields)
             })
 
-            It("Should have the JSON value for the matching string field", func() {
+            It("Should have the JSON value for both the matching string fields", func() {
                 Expect(twoStringFields.Phrase).To(Equal("Phrase's value"))
-            })
-
-            It("Should have an empty value for the non-matching string field", func() {
                 Expect(twoStringFields.Name).To(Equal("Alien Bob"))
             })
         })
