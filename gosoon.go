@@ -2,6 +2,7 @@ package gosoon
 
 import (
     "reflect"
+    "strconv"
 )
 
 func Deserialize(json ParsedJson, toFill interface{}) {
@@ -12,7 +13,12 @@ func Deserialize(json ParsedJson, toFill interface{}) {
         field := reflectValue(toFill).FieldByName(fieldName)
 
         if field.CanSet() {
-            field.SetString(json.AttributeValue(fieldName))
+            if field.Kind() == reflect.Int {
+                number, _ := strconv.Atoi(json.AttributeValue(fieldName))
+                field.SetInt(int64(number))
+            } else {
+                field.SetString(json.AttributeValue(fieldName))
+            }
         }
     }
 }

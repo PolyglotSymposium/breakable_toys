@@ -26,9 +26,22 @@ type TwoStringFields struct {
     Name string
 }
 
+type OneIntegerField struct {
+    Count int
+}
+
 type MockEmptyObject struct {}
 
 func (self MockEmptyObject) AttributeValue(foo string) string {
+    return ""
+}
+
+type MockHasCountInt struct {}
+
+func (self MockHasCountInt) AttributeValue(foo string) string {
+    if foo == "Count" {
+        return "42"
+    }
     return ""
 }
 
@@ -131,6 +144,17 @@ var _ = Describe("Gosoon", func() {
 
             It("Should have an empty value for the non-matching string field", func() {
                 Expect(twoStringFields.Name).To(Equal("Alien Bob"))
+            })
+        })
+
+        Context("When given a JSON object with a string field whose attribute matches the databag's", func() {
+            var oneIntField OneIntegerField
+            BeforeEach(func() {
+                Deserialize(MockHasCountInt{}, &oneIntField)
+            })
+
+            It("Should have the integer value for the matching field", func() {
+                Expect(oneIntField.Count).To(Equal(42))
             })
         })
     })
