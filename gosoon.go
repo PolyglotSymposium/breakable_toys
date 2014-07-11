@@ -48,10 +48,14 @@ func (self deserializer) eachFieldName(fn fieldNameFunc) {
 func (self fieldSetter) set() {
     if self.field.CanSet() {
         if self.field.Kind() == reflect.Int {
-            number, _ := strconv.Atoi(self.value)
-            self.field.SetInt(int64(number))
+            self.field.SetInt(self.valueAsInt64())
         } else {
             self.field.SetString(self.value)
         }
     }
+}
+
+func (self fieldSetter) valueAsInt64() int64 {
+    number, _ := strconv.Atoi(self.value)
+    return int64(number)
 }
