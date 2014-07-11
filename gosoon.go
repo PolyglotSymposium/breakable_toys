@@ -5,32 +5,50 @@ import (
     "strconv"
 )
 
+type deserializer struct {
+    provider ParsedJson
+    receiver interface{}
+}
+
+type fieldSetter struct {
+    value string
+    field reflect.Value
+}
+
 func Deserialize(json ParsedJson, toFill interface{}) {
-    typeOfToFill := reflectType(toFill)
+    deserializer{
+        provider: json,
+        receiver: toFill }.MapFields()
+}
 
-    for i := 0; i < typeOfToFill.NumField(); i += 1 {
-        fieldName := typeOfToFill.Field(i).Name
-        field := reflectValue(toFill).FieldByName(fieldName)
-
-        if field.CanSet() {
-            if field.Kind() == reflect.Int {
-                field.SetInt(stringToInt64(json.AttributeValue(fieldName)))
-            } else {
-                field.SetString(json.AttributeValue(fieldName))
-            }
-        }
+func (self deserializer) MapFields() {
+    for i := 0; i < self.receiverType().NumField(); i += 1 {
+        self.mapFieldByIndex(i)
     }
 }
 
-func stringToInt64(value string) int64 {
-    number, _ := strconv.Atoi(value)
-    return int64(number)
+func (self deserializer) receiverType() reflect.Type {
+    return reflect.TypeOf(self.receiver).Elem()
 }
 
-func reflectValue(ofMe interface{}) reflect.Value {
-    return reflect.ValueOf(ofMe).Elem()
+func (self deserializer) receiverValue() reflect.Value {
+    return reflect.ValueOf(self.receiver).Elem()
 }
 
-func reflectType(ofMe interface{}) reflect.Type {
-    return reflect.TypeOf(ofMe).Elem()
+func (self deserializer) mapFieldByIndex(index int) {
+    fieldName := self.receiverType().Field(index).Name
+    fieldSetter{
+        field: self.receiverValue().FieldByName(fieldName),
+        value: self.provider.AttributeValue(fieldName) }.set()
+}
+
+func (self fieldSetter) set() {
+    if self.field.CanSet() {
+        if self.field.Kind() == reflect.Int {
+            number, _ := strconv.Atoi(self.value)
+            self.field.SetInt(int64(number))
+        } else {
+            self.field.SetString(self.value)
+        }
+    }
 }
