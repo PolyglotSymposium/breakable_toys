@@ -33,3 +33,13 @@ I found it necessary to add this to my `~/.vimrc` on Linux
 
     set runtimepath+=$GOROOT/misc/vim
     autocmd BufNewFile,BufRead *.go         setfiletype go
+
+Also, maybe I didn't need to do this, but I couldn't find a better way, so I:
+
+    gvm use 1.2
+    export GOPATH=$HOME/code/go
+    PATH+=$PATH:$GOPATH/bin
+
+The first two commands ensure that I have my `$GOPATH` set up for any Bash
+session. The last one is so that I can run things like `ginkgo` from the
+command-line.
