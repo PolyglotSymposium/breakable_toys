@@ -10,11 +10,6 @@ type deserializer struct {
     receiver interface{}
 }
 
-type fieldSetter struct {
-    value string
-    field reflect.Value
-}
-
 type fieldNameFunc func(string)
 
 func Deserialize(json ParsedJson, toFill interface{}) {
@@ -43,6 +38,11 @@ func (self deserializer) eachFieldName(fn fieldNameFunc) {
     for i := 0; i < self.receiverType().NumField(); i += 1 {
         fn(self.receiverType().Field(i).Name)
     }
+}
+
+type fieldSetter struct {
+    value string
+    field reflect.Value
 }
 
 func (self fieldSetter) set() {

@@ -7,63 +7,6 @@ import (
     . "github.com/onsi/gomega"
 )
 
-type NoFields struct {}
-
-type OnePrivateField struct {
-    phrase string
-}
-
-func (s OnePrivateField) getField() string {
-    return s.phrase
-}
-
-type OneStringField struct {
-    Phrase string
-}
-
-type TwoStringFields struct {
-    Phrase string
-    Name string
-}
-
-type OneIntegerField struct {
-    Count int
-}
-
-type MockEmptyObject struct {}
-
-func (self MockEmptyObject) AttributeValue(foo string) string {
-    return ""
-}
-
-type MockHasCountInt struct {}
-
-func (self MockHasCountInt) AttributeValue(foo string) string {
-    if foo == "Count" {
-        return "42"
-    }
-    return ""
-}
-
-type MockHasPhraseString struct {}
-
-func (self MockHasPhraseString) AttributeValue(foo string) string {
-    if foo == "Phrase" {
-        return "Phrase's value"
-    }
-    return ""
-}
-
-type MockHasPhraseAndNameStrings struct {}
-
-func (self MockHasPhraseAndNameStrings) AttributeValue(foo string) string {
-    returnMe := (MockHasPhraseString{}).AttributeValue(foo)
-    if foo == "Name" {
-        returnMe = "Alien Bob"
-    }
-    return returnMe
-}
-
 var _ = Describe("Gosoon", func() {
     Describe("Deserialize", func() {
         var (
@@ -75,7 +18,7 @@ var _ = Describe("Gosoon", func() {
             twoStringFields = TwoStringFields{}
         })
 
-        Context("When given a JSON object with no fields and an object that has no fields", func() {
+        Context("Given a JSON object with no fields and an object that has no fields", func() {
             var noFields NoFields
 
             BeforeEach(func() {
@@ -87,7 +30,7 @@ var _ = Describe("Gosoon", func() {
             })
         })
 
-        Context("When given a JSON object with no fields and an object that has a field", func() {
+        Context("Given a JSON object with no fields and an object that has a field", func() {
             BeforeEach(func() {
                 Deserialize(MockEmptyObject{}, &oneStringField)
             })
@@ -97,7 +40,7 @@ var _ = Describe("Gosoon", func() {
             })
         })
 
-        Context("When given a JSON object with a string field whose attribute matches the databag's", func() {
+        Context("Given a JSON object with a string field whose attribute matches the databag's", func() {
             BeforeEach(func() {
                 Deserialize(MockHasPhraseString{}, &oneStringField)
             })
@@ -107,7 +50,7 @@ var _ = Describe("Gosoon", func() {
             })
         })
 
-        Context("When given a JSON object with a string field whose attribute matches one of the databag's two fields", func() {
+        Context("Given a JSON object with a string field whose attribute matches one of the databag's two fields", func() {
             BeforeEach(func() {
                 Deserialize(MockHasPhraseString{}, &twoStringFields)
             })
@@ -121,7 +64,7 @@ var _ = Describe("Gosoon", func() {
             })
         })
 
-        Context("When given an empty JSON object and a databag with one, private field", func() {
+        Context("Given an empty JSON object and a databag with one private field", func() {
             var onePrivateField OnePrivateField
 
             BeforeEach(func() {
@@ -133,7 +76,7 @@ var _ = Describe("Gosoon", func() {
             })
         })
 
-        Context("When given a JSON object with two string fields whose attributes matches both of the databag's", func() {
+        Context("Given a JSON object with two string fields whose attributes matches both of the databag's", func() {
             BeforeEach(func() {
                 Deserialize(MockHasPhraseAndNameStrings{}, &twoStringFields)
             })
@@ -144,7 +87,7 @@ var _ = Describe("Gosoon", func() {
             })
         })
 
-        Context("When given a JSON object with a string field whose attribute matches the databag's", func() {
+        Context("Given a JSON object with an integer field whose attribute matches the databag's", func() {
             var oneIntField OneIntegerField
             BeforeEach(func() {
                 Deserialize(MockHasCountInt{}, &oneIntField)
