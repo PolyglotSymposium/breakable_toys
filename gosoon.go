@@ -24,9 +24,11 @@ func Deserialize(json ParsedJson, toFill interface{}) {
 }
 
 func (self deserializer) MapFields() {
-    for i := 0; i < self.receiverType().NumField(); i += 1 {
-        self.mapFieldByIndex(i)
-    }
+    self.eachFieldName(func(fieldName string) {
+        fieldSetter{
+            field: self.receiverValue().FieldByName(fieldName),
+            value: self.provider.AttributeValue(fieldName) }.set()
+    })
 }
 
 func (self deserializer) receiverType() reflect.Type {
@@ -35,13 +37,6 @@ func (self deserializer) receiverType() reflect.Type {
 
 func (self deserializer) receiverValue() reflect.Value {
     return reflect.ValueOf(self.receiver).Elem()
-}
-
-func (self deserializer) mapFieldByIndex(index int) {
-    fieldName := self.receiverType().Field(index).Name
-    fieldSetter{
-        field: self.receiverValue().FieldByName(fieldName),
-        value: self.provider.AttributeValue(fieldName) }.set()
 }
 
 func (self deserializer) eachFieldName(fn fieldNameFunc) {
