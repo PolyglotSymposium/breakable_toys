@@ -14,13 +14,17 @@ func Deserialize(json ParsedJson, toFill interface{}) {
 
         if field.CanSet() {
             if field.Kind() == reflect.Int {
-                number, _ := strconv.Atoi(json.AttributeValue(fieldName))
-                field.SetInt(int64(number))
+                field.SetInt(stringToInt64(json.AttributeValue(fieldName)))
             } else {
                 field.SetString(json.AttributeValue(fieldName))
             }
         }
     }
+}
+
+func stringToInt64(value string) int64 {
+    number, _ := strconv.Atoi(value)
+    return int64(number)
 }
 
 func reflectValue(ofMe interface{}) reflect.Value {
