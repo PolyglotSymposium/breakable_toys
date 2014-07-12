@@ -50,12 +50,16 @@ func (self fieldSetter) set() {
         if self.field.Kind() == reflect.Int {
             self.field.SetInt(self.valueAsInt64())
         } else if self.field.Kind() == reflect.Float64 {
-            float, _ := strconv.ParseFloat(self.value, 64)
-            self.field.SetFloat(float)
+            self.field.SetFloat(self.valueAsFloat64())
         } else {
             self.field.SetString(self.value)
         }
     }
+}
+
+func (self fieldSetter) valueAsFloat64() float64 {
+    float, _ := strconv.ParseFloat(self.value, 64)
+    return float64(float)
 }
 
 func (self fieldSetter) valueAsInt64() int64 {
