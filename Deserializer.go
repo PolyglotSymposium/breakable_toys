@@ -47,11 +47,12 @@ type fieldSetter struct {
 
 func (self fieldSetter) set() {
     if self.field.CanSet() {
-        if self.field.Kind() == reflect.Int {
+        switch self.field.Kind() {
+        case reflect.Int:
             self.field.SetInt(self.valueAsInt64())
-        } else if self.field.Kind() == reflect.Float64 {
+        case reflect.Float64:
             self.field.SetFloat(self.valueAsFloat64())
-        } else {
+        default:
             self.field.SetString(self.value)
         }
     }
