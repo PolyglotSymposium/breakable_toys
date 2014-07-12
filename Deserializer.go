@@ -49,6 +49,9 @@ func (self fieldSetter) set() {
     if self.field.CanSet() {
         if self.field.Kind() == reflect.Int {
             self.field.SetInt(self.valueAsInt64())
+        } else if self.field.Kind() == reflect.Float64 {
+            float, _ := strconv.ParseFloat(self.value, 64)
+            self.field.SetFloat(float)
         } else {
             self.field.SetString(self.value)
         }

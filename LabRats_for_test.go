@@ -57,3 +57,15 @@ func (self MockHasPhraseAndNameStrings) AttributeValue(foo string) string {
     return returnMe
 }
 
+type OneFloat64Field struct {
+    Answer float64
+}
+
+type MockHasAnswerFloat64 struct {}
+
+func (self MockHasAnswerFloat64) AttributeValue(foo string) string {
+    if foo == "Answer" {
+        return "42.42"
+    }
+    return ""
+}
