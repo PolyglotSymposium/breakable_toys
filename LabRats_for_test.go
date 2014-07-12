@@ -69,3 +69,16 @@ func (self MockHasAnswerFloat64) AttributeValue(foo string) string {
     }
     return ""
 }
+
+type OneFloat32Field struct {
+    Answer float32
+}
+
+type MockHasAnswerFloat32 struct {}
+
+func (self MockHasAnswerFloat32) AttributeValue(foo string) string {
+    if foo == "Answer" {
+        return "42.42"
+    }
+    return ""
+}

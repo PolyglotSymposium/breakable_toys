@@ -61,6 +61,18 @@ var _ = Describe("Gosoon", func() {
             })
         })
 
+        Context("Given a JSON object with a float32 field whose attribute matches the databag's", func() {
+            var oneFloat32Field OneFloat32Field
+            BeforeEach(func() {
+                Deserialize(MockHasAnswerFloat32{}, &oneFloat32Field)
+            })
+
+            It("Should have the JSON value for the float32 field", func() {
+                Expect(oneFloat32Field.Answer > 42.41999 && oneFloat32Field.Answer < 42.4200001).To(BeTrue())
+            })
+        })
+
+
         Context("Given a JSON object with a string field whose attribute matches one of the databag's two fields", func() {
             BeforeEach(func() {
                 Deserialize(MockHasPhraseString{}, &twoStringFields)
