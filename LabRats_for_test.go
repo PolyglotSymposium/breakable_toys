@@ -82,3 +82,16 @@ func (self MockHasAnswerFloat32) AttributeValue(foo string) string {
     }
     return ""
 }
+
+type OneBoolField struct {
+    IsCorrect bool
+}
+
+type MockHasIsCorrectBool struct {}
+
+func (self MockHasIsCorrectBool) AttributeValue(foo string) string {
+    if foo == "IsCorrect" {
+        return "true"
+    }
+    return ""
+}
