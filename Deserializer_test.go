@@ -140,5 +140,15 @@ var _ = Describe("Gosoon", func() {
                 Expect(oneBoolField.IsCorrect).To(BeFalse())
             })
         })
+        Context("Given a JSON object, whose fields don't match the databag's", func() {
+            var oneBoolField OneBoolField
+            BeforeEach(func() {
+                Deserialize(MockEmptyObject{}, &oneBoolField)
+            })
+
+            It("Should have the default bool value for its bool field", func() {
+                Expect(oneBoolField.IsCorrect).To(BeFalse())
+            })
+        })
     })
 })
