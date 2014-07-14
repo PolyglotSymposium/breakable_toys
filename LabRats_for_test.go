@@ -87,11 +87,13 @@ type OneBoolField struct {
     IsCorrect bool
 }
 
-type MockHasIsCorrectBool struct {}
+type MockHasIsCorrectBool struct {
+    truthy string
+}
 
 func (self MockHasIsCorrectBool) AttributeValue(foo string) string {
     if foo == "IsCorrect" {
-        return "true"
+        return self.truthy
     }
     return ""
 }

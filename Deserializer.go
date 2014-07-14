@@ -53,7 +53,7 @@ func (self fieldSetter) set() {
         case reflect.Float64, reflect.Float32:
             self.field.SetFloat(self.valueAsFloat64())
         case reflect.Bool:
-            self.field.SetBool(true)
+            self.field.SetBool(self.value == "true")
         default:
             self.field.SetString(self.value)
         }

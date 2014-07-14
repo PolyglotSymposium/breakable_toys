@@ -120,14 +120,24 @@ var _ = Describe("Gosoon", func() {
                 Expect(oneIntField.Count).To(Equal(42))
             })
         })
-        Context("Given a JSON object with an boolean field whose attribute matches the databag's", func() {
+        Context("Given a JSON object with a true boolean field whose attribute matches the databag's", func() {
             var oneBoolField OneBoolField
             BeforeEach(func() {
-                Deserialize(MockHasIsCorrectBool{}, &oneBoolField)
+                Deserialize(MockHasIsCorrectBool{ truthy: "true" }, &oneBoolField)
             })
 
             It("Should have the bool value for the matching field", func() {
                 Expect(oneBoolField.IsCorrect).To(BeTrue())
+            })
+        })
+        Context("Given a JSON object with a false boolean field whose attribute matches the databag's", func() {
+            var oneBoolField OneBoolField
+            BeforeEach(func() {
+                Deserialize(MockHasIsCorrectBool{ truthy: "false" }, &oneBoolField)
+            })
+
+            It("Should have the bool value for the matching field", func() {
+                Expect(oneBoolField.IsCorrect).To(BeFalse())
             })
         })
     })
