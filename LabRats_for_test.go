@@ -1,5 +1,7 @@
 package gosoon_test
 
+import "gosoon"
+
 type NoFields struct {}
 
 type OnePrivateField struct {
@@ -23,6 +25,40 @@ type OneIntegerField struct {
     Count int
 }
 
+type ParsedJsonMockFactory struct {
+    NullValuedAttributes []string
+    AttributeToValueMappings map[string]string
+}
+
+func (self ParsedJsonMockFactory) Build() gosoon.ParsedJson {
+    return ParsedJsonMock{
+        keyToValueMappings: self.AttributeToValueMappings,
+        nullValuedAttributes: self.NullValuedAttributes }
+}
+
+type ParsedJsonMock struct {
+    nullValuedAttributes []string
+    keyToValueMappings map[string]string
+}
+
+func (self ParsedJsonMock) AttributeValue(key string) string {
+    item, ok := self.keyToValueMappings[key]
+
+    if ok {
+        return item
+    }
+    return ""
+}
+
+func (self ParsedJsonMock) AttributeIsNull(attributeName string) bool {
+    for _, nullAttribute := range self.nullValuedAttributes {
+        if attributeName == nullAttribute {
+            return true
+        }
+    }
+    return false
+}
+
 type MockEmptyObject struct {}
 
 func (self MockEmptyObject) AttributeValue(foo string) string {
@@ -38,6 +74,10 @@ func (self MockHasCountInt) AttributeValue(foo string) string {
     return ""
 }
 
+func (self MockHasCountInt) AttributeIsNull(foo string) bool {
+    return false
+}
+
 type MockHasPhraseString struct {}
 
 func (self MockHasPhraseString) AttributeValue(foo string) string {
@@ -45,6 +85,11 @@ func (self MockHasPhraseString) AttributeValue(foo string) string {
         return "Phrase's value"
     }
     return ""
+}
+
+
+func (self MockHasPhraseString) AttributeIsNull(foo string) bool {
+    return false
 }
 
 type MockHasPhraseAndNameStrings struct {}

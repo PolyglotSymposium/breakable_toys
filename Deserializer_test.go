@@ -12,13 +12,16 @@ var _ = Describe("Gosoon", func() {
         var (
             oneStringField OneStringField
             twoStringFields TwoStringFields
+            parsedJsonMockFactory ParsedJsonMockFactory
         )
         BeforeEach(func() {
             oneStringField = OneStringField{}
             twoStringFields = TwoStringFields{}
+            parsedJsonMockFactory  = ParsedJsonMockFactory{}
         })
 
         Context("Given an empty JSON object", func() {
+            emptyJsonObject := MockEmptyObject{}
 
             Context("and an object that has no fields", func() {
                 var noFields NoFields
@@ -28,13 +31,13 @@ var _ = Describe("Gosoon", func() {
                 })
 
                 It("Should be okay", func() {
-                    Deserialize(MockEmptyObject{}, &noFields)
+                    Deserialize(emptyJsonObject, &noFields)
                 })
             })
 
             Context("and an object that has a field", func() {
                 BeforeEach(func() {
-                    Deserialize(MockEmptyObject{}, &oneStringField)
+                    Deserialize(emptyJsonObject, &oneStringField)
                 })
 
                 It("Should set the object's field to its default value", func() {
@@ -45,6 +48,7 @@ var _ = Describe("Gosoon", func() {
         })
 
         Context("Given a JSON object with no null valued fields", func() {
+            parsedJsonMockFactory.NullValuedAttributes = make([]string, 0)
 
             Context("and it has a field that matches databag's private field", func() {
                 var onePrivateField OnePrivateField
