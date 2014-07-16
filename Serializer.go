@@ -3,6 +3,8 @@ package gosoon
 type JsonWriter interface {
 }
 
-func Serialize(interface{}) string {
-    return "{}"
+func MakeSerializer(jsonWriter JsonWriter) func(interface{}) string {
+    return func(object interface{}) string {
+        return "{}"
+    }
 }
