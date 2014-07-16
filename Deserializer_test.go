@@ -14,11 +14,6 @@ var _ = Describe("Gosoon", func() {
             twoStringFields TwoStringFields
             parsedJsonMockFactory ParsedJsonMockFactory
         )
-        BeforeEach(func() {
-            oneStringField = OneStringField{}
-            twoStringFields = TwoStringFields{}
-            parsedJsonMockFactory  = ParsedJsonMockFactory{}
-        })
 
         Context("Given an empty JSON object", func() {
             emptyJsonObject := parsedJsonMockFactory.Build()
@@ -55,7 +50,7 @@ var _ = Describe("Gosoon", func() {
             Context("and it has a field that matches databag's private field", func() {
                 BeforeEach(func() {
                     parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
-                        "phrase": "foobar"}
+                        "phrase": "foobar" }
                 })
                 var onePrivateField OnePrivateField
 
@@ -71,7 +66,7 @@ var _ = Describe("Gosoon", func() {
             Context("and it has a string field whose attribute matches the databag's", func() {
                 BeforeEach(func() {
                     parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
-                        "Phrase": "Phrase's value"}
+                        "Phrase": "Phrase's value" }
                     Deserialize(parsedJsonMockFactory.Build(), &oneStringField)
                 })
 
@@ -84,7 +79,7 @@ var _ = Describe("Gosoon", func() {
                 var oneFloat64Field OneFloat64Field
                 BeforeEach(func() {
                     parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
-                        "Answer": "42.42"}
+                        "Answer": "42.42" }
                     Deserialize(parsedJsonMockFactory.Build(), &oneFloat64Field)
                 })
 
@@ -97,7 +92,7 @@ var _ = Describe("Gosoon", func() {
                 var oneFloat32Field OneFloat32Field
                 BeforeEach(func() {
                     parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
-                        "Answer": "42.42"}
+                        "Answer": "42.42" }
                     Deserialize(parsedJsonMockFactory.Build(), &oneFloat32Field)
                 })
 
@@ -109,7 +104,7 @@ var _ = Describe("Gosoon", func() {
             Context("and it has a string field whose attribute matches one of the databag's two fields", func() {
                 BeforeEach(func() {
                     parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
-                        "Phrase": "Phrase's value"}
+                        "Phrase": "Phrase's value" }
                     Deserialize(parsedJsonMockFactory.Build(), &twoStringFields)
                 })
 
