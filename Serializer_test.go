@@ -11,11 +11,11 @@ type MockJsonWriter struct {
     json string
 }
 
-func (self MockJsonWriter) BeginObject() {
+func (self *MockJsonWriter) BeginObject() {
     self.json += "{"
 }
 
-func (self MockJsonWriter) EndObject() {
+func (self *MockJsonWriter) EndObject() {
     self.json += "}"
 }
 
@@ -24,13 +24,13 @@ var _ = Describe("Gosoon serializer", func() {
     var mock MockJsonWriter
     BeforeEach(func() {
         mock = MockJsonWriter{}
-        serialize = MakeSerializer(mock)
+        serialize = MakeSerializer(&mock)
     })
     Context("Given an object with no fields", func() {
         BeforeEach(func() {
             serialize(NoFields{})
         })
-        XIt("Should serialize it as an empty JSON object", func() {
+        It("Should serialize it as an empty JSON object", func() {
             Expect(mock.json).To(Equal("{}"))
         })
     })
