@@ -20,9 +20,11 @@ func Deserialize(json ParsedJson, toFill interface{}) {
 
 func (self deserializer) MapFields() {
     self.eachFieldName(func(fieldName string) {
-        fieldSetter{
-            field: self.receiverValue().FieldByName(fieldName),
-            value: self.provider.AttributeValue(fieldName) }.set()
+        if !self.provider.AttributeIsNull(fieldName) {
+            fieldSetter{
+                field: self.receiverValue().FieldByName(fieldName),
+                value: self.provider.AttributeValue(fieldName) }.set()
+            }
     })
 }
 

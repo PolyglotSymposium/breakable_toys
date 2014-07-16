@@ -15,6 +15,12 @@ var _ = Describe("Gosoon", func() {
             parsedJsonMockFactory ParsedJsonMockFactory
         )
 
+        BeforeEach(func() {
+            oneStringField = OneStringField{}
+            twoStringFields = TwoStringFields{}
+            parsedJsonMockFactory = ParsedJsonMockFactory{}
+        })
+
         Context("Given an empty JSON object", func() {
             emptyJsonObject := parsedJsonMockFactory.Build()
 
@@ -178,6 +184,24 @@ var _ = Describe("Gosoon", func() {
 
                 It("Should have the default bool value for its bool field", func() {
                     Expect(oneBoolField.IsCorrect).To(BeFalse())
+                })
+            })
+        })
+
+        Context("Given a JSON object with a null string field", func() {
+            BeforeEach(func() {
+                parsedJsonMockFactory.NullValuedAttributes = []string{ "Phrase" }
+            })
+
+            Context("and that null field is conventionally the same as a databag's field", func() {
+                BeforeEach(func() {
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "Phrase": "null" }
+                    Deserialize(parsedJsonMockFactory.Build(), &oneStringField)
+                })
+
+                It("Should have the default string value for that field", func() {
+                    Expect(oneStringField.Phrase).To(Equal(""))
                 })
             })
         })

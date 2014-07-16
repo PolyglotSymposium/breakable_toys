@@ -4,6 +4,7 @@ import "strings"
 
 type ParsedJson interface {
     AttributeValue(string) string
+    AttributeIsNull(string) bool
 }
 
 type LazilyParsedJson struct {
