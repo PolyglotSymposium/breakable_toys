@@ -21,7 +21,7 @@ var _ = Describe("Gosoon", func() {
         })
 
         Context("Given an empty JSON object", func() {
-            emptyJsonObject := MockEmptyObject{}
+            emptyJsonObject := parsedJsonMockFactory.Build()
 
             Context("and an object that has no fields", func() {
                 var noFields NoFields
@@ -48,13 +48,19 @@ var _ = Describe("Gosoon", func() {
         })
 
         Context("Given a JSON object with no null valued fields", func() {
-            parsedJsonMockFactory.NullValuedAttributes = make([]string, 0)
+            BeforeEach(func() {
+                parsedJsonMockFactory.NullValuedAttributes = make([]string, 0)
+            })
 
             Context("and it has a field that matches databag's private field", func() {
+                BeforeEach(func() {
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "phrase": "foobar"}
+                })
                 var onePrivateField OnePrivateField
 
                 BeforeEach(func() {
-                    Deserialize(MockHasPhraseAndNameStrings{}, &onePrivateField)
+                    Deserialize(parsedJsonMockFactory.Build(), &onePrivateField)
                 })
 
                 It("Should have empty string for that field", func() {
@@ -64,7 +70,9 @@ var _ = Describe("Gosoon", func() {
 
             Context("and it has a string field whose attribute matches the databag's", func() {
                 BeforeEach(func() {
-                    Deserialize(MockHasPhraseString{}, &oneStringField)
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "Phrase": "Phrase's value"}
+                    Deserialize(parsedJsonMockFactory.Build(), &oneStringField)
                 })
 
                 It("Should have the JSON value for the string field", func() {
@@ -75,7 +83,9 @@ var _ = Describe("Gosoon", func() {
             Context("and it has a float64 field whose attribute matches the databag's", func() {
                 var oneFloat64Field OneFloat64Field
                 BeforeEach(func() {
-                    Deserialize(MockHasAnswerFloat64{}, &oneFloat64Field)
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "Answer": "42.42"}
+                    Deserialize(parsedJsonMockFactory.Build(), &oneFloat64Field)
                 })
 
                 It("Should have the JSON value for the float64 field", func() {
@@ -86,7 +96,9 @@ var _ = Describe("Gosoon", func() {
             Context("and it has a float32 field whose attribute matches the databag's", func() {
                 var oneFloat32Field OneFloat32Field
                 BeforeEach(func() {
-                    Deserialize(MockHasAnswerFloat32{}, &oneFloat32Field)
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "Answer": "42.42"}
+                    Deserialize(parsedJsonMockFactory.Build(), &oneFloat32Field)
                 })
 
                 It("Should have the JSON value for the float32 field", func() {
@@ -96,7 +108,9 @@ var _ = Describe("Gosoon", func() {
 
             Context("and it has a string field whose attribute matches one of the databag's two fields", func() {
                 BeforeEach(func() {
-                    Deserialize(MockHasPhraseString{}, &twoStringFields)
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "Phrase": "Phrase's value"}
+                    Deserialize(parsedJsonMockFactory.Build(), &twoStringFields)
                 })
 
                 It("Should have the JSON value for the matching string field", func() {
@@ -110,7 +124,10 @@ var _ = Describe("Gosoon", func() {
 
             Context("and it has two string fields whose attributes matches both of the databag's", func() {
                 BeforeEach(func() {
-                    Deserialize(MockHasPhraseAndNameStrings{}, &twoStringFields)
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "Phrase": "Phrase's value",
+                        "Name": "Alien Bob" }
+                    Deserialize(parsedJsonMockFactory.Build(), &twoStringFields)
                 })
 
                 It("Should have the JSON value for both the matching string fields", func() {
@@ -122,37 +139,46 @@ var _ = Describe("Gosoon", func() {
             Context("and it has an integer field whose attribute matches the databag's", func() {
                 var oneIntField OneIntegerField
                 BeforeEach(func() {
-                    Deserialize(MockHasCountInt{}, &oneIntField)
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "Count": "42" }
+                    Deserialize(parsedJsonMockFactory.Build(), &oneIntField)
                 })
 
                 It("Should have the integer value for the matching field", func() {
                     Expect(oneIntField.Count).To(Equal(42))
                 })
             })
+
             Context("and it has a true boolean field whose attribute matches the databag's", func() {
                 var oneBoolField OneBoolField
                 BeforeEach(func() {
-                    Deserialize(MockHasIsCorrectBool{ truthy: "true" }, &oneBoolField)
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "IsCorrect": "true" }
+                    Deserialize(parsedJsonMockFactory.Build(), &oneBoolField)
                 })
 
                 It("Should have the bool value for the matching field", func() {
                     Expect(oneBoolField.IsCorrect).To(BeTrue())
                 })
             })
+
             Context("and it has a false boolean field whose attribute matches the databag's", func() {
                 var oneBoolField OneBoolField
                 BeforeEach(func() {
-                    Deserialize(MockHasIsCorrectBool{ truthy: "false" }, &oneBoolField)
+                    parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
+                        "IsCorrect": "false" }
+                    Deserialize(parsedJsonMockFactory.Build(), &oneBoolField)
                 })
 
                 It("Should have the bool value for the matching field", func() {
                     Expect(oneBoolField.IsCorrect).To(BeFalse())
                 })
             })
+
             Context("and it has fields that don't match the databag's", func() {
                 var oneBoolField OneBoolField
                 BeforeEach(func() {
-                    Deserialize(MockEmptyObject{}, &oneBoolField)
+                    Deserialize(parsedJsonMockFactory.Build(), &oneBoolField)
                 })
 
                 It("Should have the default bool value for its bool field", func() {
