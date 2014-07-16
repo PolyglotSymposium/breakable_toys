@@ -4,27 +4,12 @@ import (
     "gosoon"
 )
 
-type NoFields struct {}
-
 type OnePrivateField struct {
     phrase string
 }
 
 func (s OnePrivateField) getField() string {
     return s.phrase
-}
-
-type OneStringField struct {
-    Phrase string
-}
-
-type TwoStringFields struct {
-    Phrase string
-    Name string
-}
-
-type OneIntegerField struct {
-    Count int
 }
 
 type ParsedJsonMockFactory struct {
@@ -59,16 +44,4 @@ func (self ParsedJsonMock) AttributeIsNull(attributeName string) bool {
         }
     }
     return false
-}
-
-type OneFloat64Field struct {
-    Answer float64
-}
-
-type OneFloat32Field struct {
-    Answer float32
-}
-
-type OneBoolField struct {
-    IsCorrect bool
 }

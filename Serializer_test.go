@@ -28,7 +28,7 @@ var _ = Describe("Gosoon serializer", func() {
     })
     Context("Given an object with no fields", func() {
         BeforeEach(func() {
-            serialize(NoFields{})
+            serialize(struct{}{})
         })
         It("Should serialize it as an empty JSON object", func() {
             Expect(mock.json).To(Equal("{}"))
