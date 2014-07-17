@@ -70,7 +70,7 @@ var _ = Describe("Gosoon", func() {
                 })
             })
 
-            Context("and a struct that has an float32 field", func() {
+            Context("and a struct that has a float32 field", func() {
                 BeforeEach(func() {
                     Deserialize(emptyJsonObject, &oneFloat32Field)
                 })
@@ -79,7 +79,8 @@ var _ = Describe("Gosoon", func() {
                     Expect(oneFloat32Field.Answer).To(Equal(float32(0)))
                 })
             })
-            Context("and a struct that has an float64 field", func() {
+
+            Context("and a struct that has a float64 field", func() {
                 BeforeEach(func() {
                     Deserialize(emptyJsonObject, &oneFloat64Field)
                 })
