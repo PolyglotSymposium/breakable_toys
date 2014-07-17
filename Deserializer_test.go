@@ -17,6 +17,7 @@ var _ = Describe("Gosoon", func() {
             }
             oneIntField struct{ Count int }
             oneFloat32Field struct{ Answer float32 }
+            oneFloat64Field struct{ Answer float64 }
             oneBoolField struct{ IsCorrect bool }
             parsedJsonMockFactory ParsedJsonMockFactory
         )
@@ -29,6 +30,7 @@ var _ = Describe("Gosoon", func() {
             }{}
             oneIntField = struct{ Count int }{}
             oneFloat32Field = struct{ Answer float32 }{}
+            oneFloat64Field = struct{ Answer float64 }{}
             oneBoolField = struct{ IsCorrect bool }{}
             parsedJsonMockFactory = ParsedJsonMockFactory{}
         })
@@ -77,6 +79,15 @@ var _ = Describe("Gosoon", func() {
                     Expect(oneFloat32Field.Answer).To(Equal(float32(0)))
                 })
             })
+            Context("and a struct that has an float64 field", func() {
+                BeforeEach(func() {
+                    Deserialize(emptyJsonObject, &oneFloat64Field)
+                })
+
+                It("Should set the struct's field to its default value", func() {
+                    Expect(oneFloat64Field.Answer).To(Equal(float64(0)))
+                })
+            })
         })
 
         Context("Given a JSON object with no null valued fields", func() {
@@ -110,10 +121,8 @@ var _ = Describe("Gosoon", func() {
             })
 
             Context("and it has a float64 field whose attribute matches the databag's", func() {
-                var oneFloat64Field struct{ Answer float64 }
 
                 BeforeEach(func() {
-                    oneFloat64Field = struct{ Answer float64 }{}
                     parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
                         "Answer": "42.42" }
                     Deserialize(parsedJsonMockFactory.Build(), &oneFloat64Field)
