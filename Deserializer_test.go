@@ -15,6 +15,7 @@ var _ = Describe("Gosoon", func() {
                 Phrase string
                 Name string
             }
+            oneIntField struct{ Count int }
             oneBoolField struct{ IsCorrect bool }
             parsedJsonMockFactory ParsedJsonMockFactory
         )
@@ -25,6 +26,7 @@ var _ = Describe("Gosoon", func() {
                 Phrase string
                 Name string
             }{}
+            oneIntField = struct{ Count int }{}
             oneBoolField = struct{ IsCorrect bool }{}
             parsedJsonMockFactory = ParsedJsonMockFactory{}
         })
@@ -32,7 +34,7 @@ var _ = Describe("Gosoon", func() {
         Context("Given an empty JSON object", func() {
             emptyJsonObject := parsedJsonMockFactory.Build()
 
-            Context("and an object that has no fields", func() {
+            Context("and an struct that has no fields", func() {
                 var noFields struct{}
 
                 BeforeEach(func() {
@@ -44,13 +46,23 @@ var _ = Describe("Gosoon", func() {
                 })
             })
 
-            Context("and an object that has a field", func() {
+            Context("and an struct that has string a field", func() {
                 BeforeEach(func() {
                     Deserialize(emptyJsonObject, &oneStringField)
                 })
 
-                It("Should set the object's field to its default value", func() {
+                It("Should set the struct's field to its default value", func() {
                     Expect(oneStringField.Phrase).To(Equal(""))
+                })
+            })
+
+            Context("and a struct that has an integer field", func() {
+                BeforeEach(func() {
+                    Deserialize(emptyJsonObject, &oneIntField)
+                })
+
+                It("Should set the struct's field to its default value", func() {
+                    Expect(oneIntField.Count).To(Equal(0))
                 })
             })
 
@@ -147,10 +159,8 @@ var _ = Describe("Gosoon", func() {
             })
 
             Context("and it has an integer field whose attribute matches the databag's", func() {
-                var oneIntField struct{ Count int }
 
                 BeforeEach(func() {
-                    oneIntField = struct{ Count int }{}
                     parsedJsonMockFactory.AttributeToValueMappings = map[string]string{
                         "Count": "42" }
                     Deserialize(parsedJsonMockFactory.Build(), &oneIntField)
