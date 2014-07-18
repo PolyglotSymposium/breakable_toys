@@ -4,14 +4,6 @@ import (
     "reflect"
 )
 
-type JsonWriter interface {
-    BeginObject()
-    EndObject()
-    WriteKey(string)
-    WriteValue(kind reflect.Kind, value string)
-    WriteCommaExceptOnFirstPass()
-}
-
 func MakeSerializer(jsonWriter JsonWriter) func(interface{}) {
     return func(object interface{}) {
         jsonWriter.BeginObject()
