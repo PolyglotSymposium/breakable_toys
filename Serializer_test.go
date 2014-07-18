@@ -11,6 +11,7 @@ import (
 
 type MockJsonWriter struct {
     json string
+    pairSeparator string
 }
 
 func (self *MockJsonWriter) BeginObject() {
@@ -25,6 +26,11 @@ func (self *MockJsonWriter) WriteValue(kind reflect.Kind, value string) {
     if kind == reflect.String {
         self.json += `""`
     }
+}
+
+func (self *MockJsonWriter) WriteCommaExceptOnFirstPass() {
+    self.json += self.pairSeparator
+    self.pairSeparator = ","
 }
 
 func (self *MockJsonWriter) EndObject() {
@@ -46,12 +52,22 @@ var _ = Describe("Gosoon serializer", func() {
             Expect(mock.json).To(Equal("{}"))
         })
     })
+
     Context("Given an object with one blank string field", func() {
         BeforeEach(func() {
             serialize(&struct{ Foo string }{})
         })
         It("Should serialize it as JSON object with one field", func() {
             Expect(mock.json).To(Equal(`{Foo""}`))
+        })
+    })
+
+    Context("Given an object with two blank string fields", func() {
+        BeforeEach(func() {
+            serialize(&struct{ Foo string; Bar string }{})
+        })
+        It("Should serialize it as JSON object with one field", func() {
+            Expect(mock.json).To(Equal(`{Foo"",Bar""}`))
         })
     })
 })
