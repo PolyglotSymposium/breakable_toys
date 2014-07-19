@@ -36,7 +36,7 @@ var _ = Describe("Gosoon serializer", func() {
         BeforeEach(func() {
             serialize(&struct{ Foo string; Bar string }{})
         })
-        It("Should serialize it as JSON object with one field", func() {
+        It("Should serialize it as JSON object with two fields", func() {
             Expect(mock.json).To(Equal(`{Foo"",Bar""}`))
         })
     })
