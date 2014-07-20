@@ -33,11 +33,7 @@ func (self parser) parse() (json ParsedJson, err error) {
 
     self.removeCurrentRune()
 
-    self.swallowWhitespace()
-
-    if self.runesRemain() && !self.isWhiteSpace(self.currentRune()) {
-        self.savedError = errors.New("No characters should come after the final '}'")
-    }
+    self.swallowRemainder()
 
     err = self.savedError
     return
@@ -47,6 +43,14 @@ func (self *parser) swallowWhitespaceUntil(cond condition, errorMessage string) 
     self.swallowWhitespace()
     if self.savedError == nil && (!self.runesRemain() || !cond(self.unparsedJson)) {
         self.savedError = errors.New("Invalid JSON given, " + errorMessage)
+    }
+}
+
+func (self *parser) swallowRemainder() {
+    self.swallowWhitespace()
+
+    if self.runesRemain() {
+        self.savedError = errors.New("runes should come after the final '}'")
     }
 }
 
