@@ -8,7 +8,7 @@ type ParsedJson interface {
 }
 
 func Json(rawJson string) (json ParsedJson, err error) {
-    if rawJson == "" {
+    if len(rawJson) < 2 {
         err = errors.New("Invalid JSON given, must be an object or array")
         return
     }
