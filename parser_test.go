@@ -22,11 +22,12 @@ var _ = Describe("Json", func() {
         })
     })
     Context("When given an empty JSON object", func() {
-        BeforeEach(func() {
-            parsed, err = Json("{}")
+        It("Should not error out for '{}'", func() {
+            _, err = Json("{}")
+            Expect(err).NotTo(HaveOccurred())
         })
-
-        It("Should not error out", func() {
+        It("Should not error out for ' {}'", func() {
+            _, err = Json(" {}")
             Expect(err).NotTo(HaveOccurred())
         })
     })
