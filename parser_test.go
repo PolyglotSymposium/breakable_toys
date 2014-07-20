@@ -30,8 +30,11 @@ var _ = Describe("Json", func() {
             _, err = Json("{")
             Expect(err).To(HaveOccurred())
         })
+        It("Should error out for '{<ws>'", func() {
+            _, err = Json("{\n")
+            Expect(err).To(HaveOccurred())
+        })
     })
-
 
     Context("When given an empty JSON object", func() {
         It("Should not error out for '{}'", func() {

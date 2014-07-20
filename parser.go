@@ -19,11 +19,18 @@ func Json(rawJson string) (json ParsedJson, err error) {
         err = errors.New("Invalid JSON given, must begin with '{'")
     }
 
+    removeCharacter(&rawJson)
+    stripWhitespace(&rawJson)
+
+    if len(rawJson) == 0 {
+        err = errors.New("Invalid JSON given, must end with '}'")
+    }
+
     return
 }
 
 func stripWhitespace(fromMe *string) {
-    for isWhiteSpace(rune((*fromMe)[0])) {
+    for len(*fromMe) != 0 && isWhiteSpace(rune((*fromMe)[0])) {
         removeCharacter(fromMe)
     }
 }
