@@ -8,15 +8,19 @@ type ParsedJson interface {
 }
 
 func Json(rawJson string) (json ParsedJson, err error) {
-    for isWhiteSpace(rune(rawJson[0])) {
-        rawJson = rawJson[1:len(rawJson)]
-    }
+    stripBeginningWhitespace(&rawJson)
 
     if rune(rawJson[0]) != '{' {
         err = errors.New("Invalid JSON given")
     }
 
     return
+}
+
+func stripBeginningWhitespace(fromMe *string) {
+    for isWhiteSpace(rune((*fromMe)[0])) {
+        *fromMe = (*fromMe)[1:len(*fromMe)]
+    }
 }
 
 func isWhiteSpace(r rune) bool {
