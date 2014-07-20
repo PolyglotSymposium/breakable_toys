@@ -7,41 +7,46 @@ type ParsedJson interface {
     AttributeIsNull(string) bool
 }
 
+type parser struct {
+    unparsedJson string
+    savedError error
+}
+
 func Json(rawJson string) (json ParsedJson, err error) {
-    if len(rawJson) < 2 {
-        err = errors.New("Invalid JSON given, must be an object or array")
-        return
-    }
-
-    stripWhitespace(&rawJson)
-
-    if rune(rawJson[0]) != '{' {
-        err = errors.New("Invalid JSON given, must begin with '{'")
-    }
-
-    removeCharacter(&rawJson)
-
-
-
-    stripWhitespace(&rawJson)
-
-    if len(rawJson) == 0 || rune(rawJson[0]) != '}' {
-        err = errors.New("Invalid JSON given, must end with '}'")
-    }
-
+    json, err = parser{unparsedJson: rawJson}.parse()
     return
 }
 
-func stripWhitespace(fromMe *string) {
-    for len(*fromMe) != 0 && isWhiteSpace(rune((*fromMe)[0])) {
-        removeCharacter(fromMe)
+func (self parser) parse() (json ParsedJson, err error) {
+    self.stripWhitespace()
+
+    if len(self.unparsedJson) == 0 || rune(self.unparsedJson[0]) != '{' {
+        err = errors.New("Invalid JSON given, must begin with '{'")
+        return
+    }
+
+    self.removeCharacter()
+
+
+
+    self.stripWhitespace()
+
+    if len(self.unparsedJson) == 0 || rune(self.unparsedJson[0]) != '}' {
+        err = errors.New("Invalid JSON given, must end with '}'")
+    }
+    return
+}
+
+func (self *parser) stripWhitespace() {
+    for len(self.unparsedJson) != 0 && self.isWhiteSpace(rune((self.unparsedJson)[0])) {
+        self.removeCharacter()
     }
 }
 
-func removeCharacter(fromMe *string) {
-    *fromMe = (*fromMe)[1:len(*fromMe)]
+func (self *parser) removeCharacter() {
+    self.unparsedJson = (self.unparsedJson)[1:len(self.unparsedJson)]
 }
 
-func isWhiteSpace(r rune) bool {
+func (self *parser) isWhiteSpace(r rune) bool {
     return r == ' ' || r == '\t' || r == '\n'
 }
