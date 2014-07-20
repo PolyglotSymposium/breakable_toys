@@ -12,39 +12,50 @@ type parser struct {
     savedError error
 }
 
+type condition func(string) bool
+
 func Json(rawJson string) (json ParsedJson, err error) {
     json, err = parser{unparsedJson: rawJson}.parse()
     return
 }
 
 func (self parser) parse() (json ParsedJson, err error) {
-    self.stripWhitespace()
 
-    if len(self.unparsedJson) == 0 || rune(self.unparsedJson[0]) != '{' {
-        err = errors.New("Invalid JSON given, must begin with '{'")
-        return
-    }
+    self.swallowWhitespaceUntil(func(json string) bool {
+        return rune(json[0]) == '{'
+    }, "Invalid JSON given, must begin with '{'")
 
-    self.removeCharacter()
+    self.removeCurrentRune()
 
+    self.swallowWhitespaceUntil(func(json string) bool {
+        return rune(json[0]) == '}'
+    }, "Invalid JSON given, must end with '}'")
 
-
-    self.stripWhitespace()
-
-    if len(self.unparsedJson) == 0 || rune(self.unparsedJson[0]) != '}' {
-        err = errors.New("Invalid JSON given, must end with '}'")
-    }
+    err = self.savedError
     return
 }
 
-func (self *parser) stripWhitespace() {
-    for len(self.unparsedJson) != 0 && self.isWhiteSpace(rune((self.unparsedJson)[0])) {
-        self.removeCharacter()
+func (self *parser) swallowWhitespaceUntil(cond condition, errorMessage string) {
+    self.swallowWhitespace()
+    if self.savedError == nil && (!self.runesRemain() || !cond(self.unparsedJson)) {
+        self.savedError = errors.New(errorMessage)
     }
 }
 
-func (self *parser) removeCharacter() {
-    self.unparsedJson = (self.unparsedJson)[1:len(self.unparsedJson)]
+func (self *parser) swallowWhitespace() {
+    for self.savedError == nil && self.runesRemain() && self.isWhiteSpace(rune((self.unparsedJson)[0])) {
+        self.removeCurrentRune()
+    }
+}
+
+func (self parser) runesRemain() bool {
+    return len(self.unparsedJson) != 0
+}
+
+func (self *parser) removeCurrentRune() {
+    if self.runesRemain() {
+        self.unparsedJson = (self.unparsedJson)[1:len(self.unparsedJson)]
+    }
 }
 
 func (self *parser) isWhiteSpace(r rune) bool {
