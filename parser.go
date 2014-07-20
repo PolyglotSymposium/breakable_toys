@@ -8,10 +8,15 @@ type ParsedJson interface {
 }
 
 func Json(rawJson string) (json ParsedJson, err error) {
+    if rawJson == "" {
+        err = errors.New("Invalid JSON given, must be an object or array")
+        return
+    }
+
     stripWhitespace(&rawJson)
 
     if rune(rawJson[0]) != '{' {
-        err = errors.New("Invalid JSON given")
+        err = errors.New("Invalid JSON given, must begin with '{'")
     }
 
     return
@@ -19,8 +24,12 @@ func Json(rawJson string) (json ParsedJson, err error) {
 
 func stripWhitespace(fromMe *string) {
     for isWhiteSpace(rune((*fromMe)[0])) {
-        *fromMe = (*fromMe)[1:len(*fromMe)]
+        removeCharacter(fromMe)
     }
+}
+
+func removeCharacter(fromMe *string) {
+    *fromMe = (*fromMe)[1:len(*fromMe)]
 }
 
 func isWhiteSpace(r rune) bool {
