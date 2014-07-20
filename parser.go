@@ -16,5 +16,5 @@ func Json(rawJson string) (json ParsedJson, err error) {
 }
 
 func validBeginningRune(r rune) bool {
-    return r == '{' || r == ' ' || r == '\t'
+    return r == '{' || r == ' ' || r == '\t' || r == '\n'
 }

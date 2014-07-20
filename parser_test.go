@@ -34,5 +34,9 @@ var _ = Describe("Json", func() {
             _, err = Json("\t{}")
             Expect(err).NotTo(HaveOccurred())
         })
+        It("Should not error out for '<newline>{}'", func() {
+            _, err = Json("\n{}")
+            Expect(err).NotTo(HaveOccurred())
+        })
     })
 })
