@@ -10,6 +10,10 @@ type ParsedJson interface {
 type parser struct {
     unparsedJson string
     savedError error
+    result ParsedJson
+}
+
+type parserResult struct {
 }
 
 type condition func(string) bool
@@ -20,12 +24,15 @@ func Json(rawJson string) (json ParsedJson, err error) {
 }
 
 func (self parser) parse() (json ParsedJson, err error) {
+    self.result = parserResult{}
 
     self.swallowWhitespaceUntil(func(json string) bool {
         return rune(json[0]) == '{'
     }, "must begin with '{'")
 
     self.removeCurrentRune()
+
+    self.swallowWhitespace()
 
     if self.runesRemain() && self.currentRune() == '"' {
         for self.currentRune() != '}' {
@@ -42,7 +49,16 @@ func (self parser) parse() (json ParsedJson, err error) {
     self.swallowRemainder()
 
     err = self.savedError
+    json = self.result
     return
+}
+
+func (self parserResult) AttributeIsNull(attribute string) bool {
+    return true
+}
+
+func (self parserResult) AttributeValue(attribute string) string {
+    return ""
 }
 
 func (self *parser) swallowWhitespaceUntil(cond condition, errorMessage string) {

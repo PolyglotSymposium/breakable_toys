@@ -10,6 +10,7 @@ import (
 var _ = Describe("Json", func() {
     var (
         err error
+        parsed ParsedJson
     )
     Context("Given brutally invalid JSON", func() {
         It("Should error out", func() {
@@ -94,6 +95,16 @@ var _ = Describe("Json", func() {
         It(`Should not error out for '{"":null}'`, func() {
             _, err = Json(`{"":null}`)
             Expect(err).NotTo(HaveOccurred())
+        })
+        It(`Should not error out for '{<ws>"":null}'`, func() {
+            _, err = Json(`{ "":null}`)
+            Expect(err).NotTo(HaveOccurred())
+        })
+        Describe("AttributeIsNull", func() {
+            It(`Should be true for ""`, func() {
+                parsed, err = Json(`{"":null}`)
+                Expect(parsed.AttributeIsNull("")).To(BeTrue())
+            })
         })
     })
 })
