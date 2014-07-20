@@ -27,6 +27,12 @@ func (self parser) parse() (json ParsedJson, err error) {
 
     self.removeCurrentRune()
 
+    if self.runesRemain() && self.currentRune() == '"' {
+        for self.currentRune() != '}' {
+            self.removeCurrentRune()
+        }
+    }
+
     self.swallowWhitespaceUntil(func(json string) bool {
         return rune(json[0]) == '}'
     }, "must end with '}'")
@@ -50,7 +56,7 @@ func (self *parser) swallowRemainder() {
     self.swallowWhitespace()
 
     if self.runesRemain() {
-        self.savedError = errors.New("runes should come after the final '}'")
+        self.savedError = errors.New("runes should not come after the final '}'")
     }
 }
 

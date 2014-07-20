@@ -11,21 +11,21 @@ var _ = Describe("Json", func() {
     var (
         err error
     )
-    Context("When given brutally invalid JSON", func() {
+    Context("Given brutally invalid JSON", func() {
         It("Should error out", func() {
             _, err = Json(`F0oTo^Bar}{kkKkK`)
             Expect(err).To(HaveOccurred())
         })
     })
 
-    Context("When given an empty string", func() {
+    Context("Given an empty string", func() {
         It("Should error out", func() {
             _, err = Json("")
             Expect(err).To(HaveOccurred())
         })
     })
 
-    Context("When given JSON that beings correctly, but goes o' so badly", func() {
+    Context("Given JSON that beings correctly, but goes o' so badly", func() {
         It("Should error out for '{'", func() {
             _, err = Json("{")
             Expect(err).To(HaveOccurred())
@@ -48,7 +48,14 @@ var _ = Describe("Json", func() {
         })
     })
 
-    Context("When given an empty JSON object", func() {
+    Context("Given JSON with an invalid key", func() {
+        It(`Should error out for '{a:""}'`, func() {
+            _, err = Json(`{a:""}`)
+            Expect(err).To(HaveOccurred())
+        })
+    })
+
+    Context("Given an empty JSON object", func() {
         It("Should not error out for '{}'", func() {
             _, err = Json("{}")
             Expect(err).NotTo(HaveOccurred())
@@ -79,6 +86,13 @@ var _ = Describe("Json", func() {
         })
         It("Should not error out for '{}<ws><ws>'", func() {
             _, err = Json("{}\n\t")
+            Expect(err).NotTo(HaveOccurred())
+        })
+    })
+
+    Context(`Given a JSON object with a key of "", and a value of null`, func() {
+        It(`Should not error out for '{"":null}'`, func() {
+            _, err = Json(`{"":null}`)
             Expect(err).NotTo(HaveOccurred())
         })
     })
