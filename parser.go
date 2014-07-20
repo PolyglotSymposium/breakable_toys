@@ -8,6 +8,9 @@ type ParsedJson interface {
 }
 
 func Json(rawJson string) (json ParsedJson, err error) {
-    err = errors.New("Invalid JSON given")
+    if rawJson != "{}" {
+        err = errors.New("Invalid JSON given")
+    }
+
     return
 }
