@@ -20,9 +20,12 @@ func Json(rawJson string) (json ParsedJson, err error) {
     }
 
     removeCharacter(&rawJson)
+
+
+
     stripWhitespace(&rawJson)
 
-    if len(rawJson) == 0 {
+    if len(rawJson) == 0 || rune(rawJson[0]) != '}' {
         err = errors.New("Invalid JSON given, must end with '}'")
     }
 
