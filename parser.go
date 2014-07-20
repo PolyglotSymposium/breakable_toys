@@ -33,7 +33,7 @@ func (self parser) parse() (json ParsedJson, err error) {
 
     self.removeCurrentRune()
 
-    if self.runesRemain() && !self.isWhiteSpace(rune(self.unparsedJson[0])) {
+    if self.runesRemain() && !self.isWhiteSpace(self.currentRune()) {
         self.savedError = errors.New("No characters should come after the final '}'")
     }
 
@@ -49,13 +49,17 @@ func (self *parser) swallowWhitespaceUntil(cond condition, errorMessage string) 
 }
 
 func (self *parser) swallowWhitespace() {
-    for self.savedError == nil && self.runesRemain() && self.isWhiteSpace(rune((self.unparsedJson)[0])) {
+    for self.savedError == nil && self.runesRemain() && self.isWhiteSpace(self.currentRune()) {
         self.removeCurrentRune()
     }
 }
 
 func (self parser) runesRemain() bool {
     return len(self.unparsedJson) != 0
+}
+
+func (self parser) currentRune() rune {
+    return rune(self.unparsedJson[0])
 }
 
 func (self *parser) removeCurrentRune() {
