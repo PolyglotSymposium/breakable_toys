@@ -23,13 +23,13 @@ func (self parser) parse() (json ParsedJson, err error) {
 
     self.swallowWhitespaceUntil(func(json string) bool {
         return rune(json[0]) == '{'
-    }, "Invalid JSON given, must begin with '{'")
+    }, "must begin with '{'")
 
     self.removeCurrentRune()
 
     self.swallowWhitespaceUntil(func(json string) bool {
         return rune(json[0]) == '}'
-    }, "Invalid JSON given, must end with '}'")
+    }, "must end with '}'")
 
     self.removeCurrentRune()
 
@@ -44,7 +44,7 @@ func (self parser) parse() (json ParsedJson, err error) {
 func (self *parser) swallowWhitespaceUntil(cond condition, errorMessage string) {
     self.swallowWhitespace()
     if self.savedError == nil && (!self.runesRemain() || !cond(self.unparsedJson)) {
-        self.savedError = errors.New(errorMessage)
+        self.savedError = errors.New('Invalid JSON given, ' + errorMessage)
     }
 }
 
