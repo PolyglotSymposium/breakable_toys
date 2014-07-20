@@ -31,6 +31,12 @@ func (self parser) parse() (json ParsedJson, err error) {
         return rune(json[0]) == '}'
     }, "Invalid JSON given, must end with '}'")
 
+    self.removeCurrentRune()
+
+    if self.runesRemain() && !self.isWhiteSpace(rune(self.unparsedJson[0])) {
+        self.savedError = errors.New("No characters should come after the final '}'")
+    }
+
     err = self.savedError
     return
 }
