@@ -8,9 +8,13 @@ type ParsedJson interface {
 }
 
 func Json(rawJson string) (json ParsedJson, err error) {
-    if rawJson != "{}" && rawJson != " {}" {
+    if !validBeginningRune(rune(rawJson[0])) {
         err = errors.New("Invalid JSON given")
     }
 
     return
+}
+
+func validBeginningRune(r rune) bool {
+    return r == '{' || r == ' ' || r == '\t'
 }
