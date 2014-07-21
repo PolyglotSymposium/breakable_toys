@@ -40,4 +40,13 @@ var _ = Describe("Gosoon serializer", func() {
             Expect(mock.json).To(Equal(`{Foo"",Bar""}`))
         })
     })
+
+    Context("Given an object with a zero integer field", func() {
+        BeforeEach(func() {
+            serialize(&struct{ Foo int }{})
+        })
+        It("Should serialize it as JSON object with two fields", func() {
+            Expect(mock.json).To(Equal(`{Foo0}`))
+        })
+    })
 })

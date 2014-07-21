@@ -7,10 +7,16 @@ import (
 func MakeSerializer(jsonWriter JsonWriter) func(interface{}) {
     return func(object interface{}) {
         jsonWriter.BeginObject()
-        for i := 0; i < reflect.TypeOf(object).Elem().NumField(); i += 1 {
+        typeOfObject := reflect.TypeOf(object).Elem()
+        for i := 0; i < typeOfObject.NumField(); i += 1 {
             jsonWriter.WriteCommaExceptOnFirstPass()
-            jsonWriter.WriteKey(reflect.TypeOf(object).Elem().Field(i).Name)
-            jsonWriter.WriteValue(reflect.String, "")
+            field := typeOfObject.Field(i)
+            jsonWriter.WriteKey(field.Name)
+            if field.Type.Kind() == reflect.String {
+                jsonWriter.WriteValue(field.Type.Kind(), "")
+            } else {
+                jsonWriter.WriteValue(field.Type.Kind(), "0")
+            }
         }
         jsonWriter.EndObject()
     }
