@@ -127,5 +127,9 @@ var _ = Describe("JsonString", func() {
             _, err := JsonString(`""`)
             Expect(err).ToNot(HaveOccurred())
         })
+        It("Should return an empty string", func() {
+            value, _ := JsonString(`""`)
+            Expect(value).To(Equal(""))
+        })
     })
 })
