@@ -23,6 +23,11 @@ func Json(rawJson string) (json ParsedJson, err error) {
     return
 }
 
+func JsonString(rawJson string) (stringsValue string, err error) {
+    err = errors.New("Invalid JSON string")
+    return
+}
+
 func (self parser) parse() (json ParsedJson, err error) {
     self.result = parserResult{}
 

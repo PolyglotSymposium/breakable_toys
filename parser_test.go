@@ -108,3 +108,12 @@ var _ = Describe("Json", func() {
         })
     })
 })
+
+var _ = Describe("JsonString", func() {
+    Context("Given an empty string with no JSON", func() {
+        It("Should error out", func() {
+            _, err := JsonString("")
+            Expect(err).To(HaveOccurred())
+        })
+    })
+})
