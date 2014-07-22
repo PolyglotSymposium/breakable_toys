@@ -151,6 +151,10 @@ var _ = Describe("JsonString", func() {
             value, _ := JsonString(`"Ω"`)
             Expect(value).To(Equal("Ω"))
         })
+        It(`Should return the correct two character string for "<char><u-char>"`, func() {
+            value, _ := JsonString(`"kΩ"`)
+            Expect(value).To(Equal("kΩ"))
+        })
     })
 
     Context("Given a JSON string with simple characters in it", func() {
