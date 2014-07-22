@@ -141,5 +141,9 @@ var _ = Describe("JsonString", func() {
             value, _ := JsonString(`"k"`)
             Expect(value).To(Equal("k"))
         })
+        It(`Should return a two characters string for "<char><char>"`, func() {
+            value, _ := JsonString(`"ke"`)
+            Expect(value).To(Equal("ke"))
+        })
     })
 })
