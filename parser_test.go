@@ -178,6 +178,18 @@ var _ = Describe("JsonString", func() {
             value, _ := JsonString(`" This is a \r test"`)
             Expect(value).To(Equal(" This is a \r test"))
         })
+        It("Should return a string containing the formfeed", func() {
+            value, _ := JsonString(`" This is a \f test"`)
+            Expect(value).To(Equal(" This is a \f test"))
+        })
+        It("Should return a string containing the backspace", func() {
+            value, _ := JsonString(`" This is a \b test"`)
+            Expect(value).To(Equal(" This is a \b test"))
+        })
+        It("Should return a string containing the solidus", func() {
+            value, _ := JsonString(`" This is a \∕ test"`)
+            Expect(value).To(Equal(" This is a ∕ test"))
+        })
     })
 
     Context("Given a JSON string with simple characters in it", func() {

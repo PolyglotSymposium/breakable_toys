@@ -41,7 +41,10 @@ func JsonString(rawJson string) (stringsValue string, err error) {
                 stringsValue += map[rune]string{
                     'n': "\n",
                     'r': "\r",
-                    't': "\t" }[rune(rawJson[i+1])]
+                    'f': "\f",
+                    'b': "\b",
+                    '∕': "∕",
+                    't': "\t" }[[]rune(rawJson)[i+1]]
                 i += 2
             }
         }
