@@ -26,8 +26,8 @@ func Json(rawJson string) (json ParsedJson, err error) {
 }
 
 func JsonString(rawJson string) (stringsValue string, err error) {
-    if len(rawJson) < 2 {
-        err = errors.New("Invalid JSON string")
+    if len(rawJson) < 2 || rawJson[0] != '"' {
+        err = errors.New("Invalid JSON string, must begin in double quote")
     }
 
     for i := 1; i < len(rawJson); i += 1 {
