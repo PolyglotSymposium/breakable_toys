@@ -132,4 +132,14 @@ var _ = Describe("JsonString", func() {
             Expect(value).To(Equal(""))
         })
     })
+    Context("Given a JSON string with simple characters in it", func() {
+        It("Should not error out", func() {
+            _, err := JsonString(`" asdg asdg a"`)
+            Expect(err).ToNot(HaveOccurred())
+        })
+        It(`Should return a one character string for "<char>"`, func() {
+            value, _ := JsonString(`"k"`)
+            Expect(value).To(Equal("k"))
+        })
+    })
 })

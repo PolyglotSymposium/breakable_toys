@@ -27,6 +27,9 @@ func JsonString(rawJson string) (stringsValue string, err error) {
     if len(rawJson) < 2 {
         err = errors.New("Invalid JSON string")
     }
+    if len(rawJson) == 3 {
+        stringsValue = string(rawJson[1])
+    }
     return
 }
 
