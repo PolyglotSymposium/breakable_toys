@@ -142,6 +142,17 @@ var _ = Describe("JsonString", func() {
         })
     })
 
+    Context("Given a JSON string with unicode characters in it", func() {
+        It("Should not error out", func() {
+            _, err := JsonString(`"omega=Ω"`)
+            Expect(err).ToNot(HaveOccurred())
+        })
+        It(`Should return the correct one character string for "<u-char>"`, func() {
+            value, _ := JsonString(`"Ω"`)
+            Expect(value).To(Equal("Ω"))
+        })
+    })
+
     Context("Given a JSON string with simple characters in it", func() {
         It("Should not error out", func() {
             _, err := JsonString(`" asdg asdg a"`)

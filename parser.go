@@ -1,6 +1,8 @@
 package gosoon
 
-import "errors"
+import (
+    "errors"
+)
 
 type ParsedJson interface {
     AttributeValue(string) string
@@ -29,10 +31,10 @@ func JsonString(rawJson string) (stringsValue string, err error) {
     }
 
     for i := 1; i < len(rawJson); i += 1 {
-        if rune(rawJson[i]) == '"' {
+        if []rune(rawJson)[i] == '"' {
             return
         }
-        stringsValue += string(rawJson[i])
+        stringsValue += string([]rune(rawJson)[i])
     }
 
     return "", errors.New("Invald JSON string, must end in double quote")
