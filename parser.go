@@ -34,6 +34,9 @@ func JsonString(rawJson string) (stringsValue string, err error) {
         if []rune(rawJson)[i] == '"' {
             return
         }
+        if []rune(rawJson)[i] == '\\' {
+            i += 1
+        }
         stringsValue += string([]rune(rawJson)[i])
     }
 

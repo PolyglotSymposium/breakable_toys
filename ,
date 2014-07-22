@@ -163,8 +163,8 @@ var _ = Describe("JsonString", func() {
             Expect(err).ToNot(HaveOccurred())
         })
         It("Should return a string containing the quotation mark", func() {
-            value, _ := JsonString(`" This is a \" test"`)
-            Expect(value).To(Equal(` This is a " test`))
+            value, _ := JsonString(`"k"`)
+            Expect(value).To(Equal("k"))
         })
     })
 
