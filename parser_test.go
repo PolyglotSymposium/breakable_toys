@@ -170,6 +170,10 @@ var _ = Describe("JsonString", func() {
             value, _ := JsonString(`" This is a \n test"`)
             Expect(value).To(Equal(" This is a \n test"))
         })
+        It("Should return a string containing the tab", func() {
+            value, _ := JsonString(`" This is a \t test"`)
+            Expect(value).To(Equal(" This is a \t test"))
+        })
     })
 
     Context("Given a JSON string with simple characters in it", func() {

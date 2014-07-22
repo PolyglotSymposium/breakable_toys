@@ -38,7 +38,9 @@ func JsonString(rawJson string) (stringsValue string, err error) {
             if []rune(rawJson)[i+1] == '"' {
                 i += 1
             } else {
-                stringsValue += "\n"
+                stringsValue += map[rune]string{
+                    'n': "\n",
+                    't': "\t" }[rune(rawJson[i+1])]
                 i += 2
             }
         }
