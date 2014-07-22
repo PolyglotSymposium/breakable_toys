@@ -116,12 +116,21 @@ var _ = Describe("JsonString", func() {
             Expect(err).To(HaveOccurred())
         })
     })
+
     Context("Given a string with just a double-quote", func() {
         It("Should error out", func() {
             _, err := JsonString(`"`)
             Expect(err).To(HaveOccurred())
         })
     })
+
+    Context("Given a string with just a double-quote that does not have a closing quote", func() {
+        It("Should error out", func() {
+            _, err := JsonString(`"no ending double quote`)
+            Expect(err).To(HaveOccurred())
+        })
+    })
+
     Context("Given an empty JSON string", func() {
         It("Should not error out", func() {
             _, err := JsonString(`""`)
@@ -132,6 +141,7 @@ var _ = Describe("JsonString", func() {
             Expect(value).To(Equal(""))
         })
     })
+
     Context("Given a JSON string with simple characters in it", func() {
         It("Should not error out", func() {
             _, err := JsonString(`" asdg asdg a"`)

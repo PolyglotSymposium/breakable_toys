@@ -27,6 +27,7 @@ func JsonString(rawJson string) (stringsValue string, err error) {
     if len(rawJson) < 2 {
         err = errors.New("Invalid JSON string")
     }
+
     if len(rawJson) >= 3 {
         stringsValue = string(rawJson[1])
     }
@@ -36,6 +37,15 @@ func JsonString(rawJson string) (stringsValue string, err error) {
     if len(rawJson) >= 5 {
         stringsValue += string(rawJson[3])
     }
+
+    for i := 1; i < len(rawJson); i += 1 {
+        if rune(rawJson[i]) == '"' {
+            return
+        }
+    }
+
+    err = errors.New("Invald JSON string, must end in double quote")
+
     return
 }
 
