@@ -190,6 +190,10 @@ var _ = Describe("JsonString", func() {
             value, _ := JsonString(`" This is a \∕ test"`)
             Expect(value).To(Equal(" This is a ∕ test"))
         })
+        It("Should return a string containing the reverse solidus", func() {
+            value, _ := JsonString(`" This is a \\ test"`)
+            Expect(value).To(Equal(" This is a \\ test"))
+        })
     })
 
     Context("Given a JSON string with simple characters in it", func() {

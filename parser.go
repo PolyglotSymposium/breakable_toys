@@ -44,6 +44,7 @@ func JsonString(rawJson string) (stringsValue string, err error) {
                     'f': "\f",
                     'b': "\b",
                     '∕': "∕",
+                    '\\': "\\",
                     't': "\t" }[[]rune(rawJson)[i+1]]
                 i += 2
             }
