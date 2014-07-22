@@ -137,13 +137,17 @@ var _ = Describe("JsonString", func() {
             _, err := JsonString(`" asdg asdg a"`)
             Expect(err).ToNot(HaveOccurred())
         })
-        It(`Should return a one character string for "<char>"`, func() {
+        It(`Should return the correct one character string for "<char>"`, func() {
             value, _ := JsonString(`"k"`)
             Expect(value).To(Equal("k"))
         })
-        It(`Should return a two characters string for "<char><char>"`, func() {
+        It(`Should return the correct two characters string for "<char><char>"`, func() {
             value, _ := JsonString(`"ke"`)
             Expect(value).To(Equal("ke"))
+        })
+        It(`Should return the correct three characters string for "<char><char><char>"`, func() {
+            value, _ := JsonString(`"kei"`)
+            Expect(value).To(Equal("kei"))
         })
     })
 })

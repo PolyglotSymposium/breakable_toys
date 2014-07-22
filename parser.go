@@ -30,8 +30,11 @@ func JsonString(rawJson string) (stringsValue string, err error) {
     if len(rawJson) >= 3 {
         stringsValue = string(rawJson[1])
     }
-    if len(rawJson) == 4 {
+    if len(rawJson) >= 4 {
         stringsValue += string(rawJson[2])
+    }
+    if len(rawJson) >= 5 {
+        stringsValue += string(rawJson[3])
     }
     return
 }
