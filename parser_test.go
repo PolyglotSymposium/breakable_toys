@@ -174,6 +174,10 @@ var _ = Describe("JsonString", func() {
             value, _ := JsonString(`" This is a \t test"`)
             Expect(value).To(Equal(" This is a \t test"))
         })
+        It("Should return a string containing the return", func() {
+            value, _ := JsonString(`" This is a \r test"`)
+            Expect(value).To(Equal(" This is a \r test"))
+        })
     })
 
     Context("Given a JSON string with simple characters in it", func() {
