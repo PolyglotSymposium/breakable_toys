@@ -157,7 +157,7 @@ var _ = Describe("JsonString", func() {
         })
     })
 
-    Context("Given a JSON string with an escaped backslash in it", func() {
+    Context("Given a JSON string with an escaped character in it", func() {
         It("Should not error out", func() {
             _, err := JsonString(`" asdg \" asdg a"`)
             Expect(err).ToNot(HaveOccurred())
@@ -165,6 +165,10 @@ var _ = Describe("JsonString", func() {
         It("Should return a string containing the quotation mark", func() {
             value, _ := JsonString(`" This is a \" test"`)
             Expect(value).To(Equal(` This is a " test`))
+        })
+        It("Should return a string containing the newline", func() {
+            value, _ := JsonString(`" This is a \n test"`)
+            Expect(value).To(Equal(" This is a \n test"))
         })
     })
 
