@@ -24,7 +24,9 @@ func Json(rawJson string) (json ParsedJson, err error) {
 }
 
 func JsonString(rawJson string) (stringsValue string, err error) {
-    err = errors.New("Invalid JSON string")
+    if len(rawJson) < 2 {
+        err = errors.New("Invalid JSON string")
+    }
     return
 }
 

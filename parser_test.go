@@ -116,4 +116,16 @@ var _ = Describe("JsonString", func() {
             Expect(err).To(HaveOccurred())
         })
     })
+    Context("Given a string with just a double-quote", func() {
+        It("Should error out", func() {
+            _, err := JsonString(`"`)
+            Expect(err).To(HaveOccurred())
+        })
+    })
+    Context("Given an empty JSON string", func() {
+        It("Should not error out", func() {
+            _, err := JsonString(`""`)
+            Expect(err).ToNot(HaveOccurred())
+        })
+    })
 })
