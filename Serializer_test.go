@@ -23,7 +23,7 @@ var _ = Describe("Gosoon serializer", func() {
         })
     })
 
-    Context("Given an object with one blank string field", func() {
+    Context("Given an object with one defaulted string field", func() {
         BeforeEach(func() {
             serialize(&struct{ Foo string }{})
         })
@@ -32,7 +32,7 @@ var _ = Describe("Gosoon serializer", func() {
         })
     })
 
-    Context("Given an object with two blank string fields", func() {
+    Context("Given an object with two defaulted string fields", func() {
         BeforeEach(func() {
             serialize(&struct{ Foo string; Bar string }{})
         })
@@ -41,12 +41,21 @@ var _ = Describe("Gosoon serializer", func() {
         })
     })
 
-    Context("Given an object with a zero integer field", func() {
+    Context("Given an object with a defaulted integer field", func() {
         BeforeEach(func() {
             serialize(&struct{ Foo int }{})
         })
         It("Should serialize it as JSON object with two fields", func() {
             Expect(mock.json).To(Equal(`{Foo0}`))
+        })
+    })
+
+    Context("Given an object with a defaulted boolean field", func() {
+        BeforeEach(func() {
+            serialize(&struct{ Foo bool }{})
+        })
+        It("Should serialize it as JSON object with two fields", func() {
+            Expect(mock.json).To(Equal(`{Foofalse}`))
         })
     })
 })
