@@ -19,7 +19,7 @@ func MakeSerializer(jsonWriter JsonWriter) func(interface{}) {
             } else if field.Type.Kind() == reflect.Bool {
                 jsonWriter.WriteValue(field.Type.Kind(), fmt.Sprint(valueOfObject.Field(i).Bool()))
             } else {
-                jsonWriter.WriteValue(field.Type.Kind(), "0")
+                jsonWriter.WriteValue(field.Type.Kind(), fmt.Sprint(valueOfObject.Field(i).Int()))
             }
         }
         jsonWriter.EndObject()
