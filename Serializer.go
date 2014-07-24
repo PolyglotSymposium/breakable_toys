@@ -15,7 +15,7 @@ func MakeSerializer(jsonWriter JsonWriter) func(interface{}) {
             field := typeOfObject.Field(i)
             jsonWriter.WriteKey(field.Name)
             if field.Type.Kind() == reflect.String {
-                jsonWriter.WriteValue(field.Type.Kind(), "")
+                jsonWriter.WriteValue(field.Type.Kind(), valueOfObject.Field(i).String())
             } else if field.Type.Kind() == reflect.Bool {
                 jsonWriter.WriteValue(field.Type.Kind(), fmt.Sprint(valueOfObject.Field(i).Bool()))
             } else {

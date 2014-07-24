@@ -19,7 +19,7 @@ func (self *MockJsonWriter) WriteKey(key string) {
 
 func (self *MockJsonWriter) WriteValue(kind reflect.Kind, value string) {
     if kind == reflect.String {
-        self.json += `""`
+        self.json += `"` + value + `"`
     } else {
         self.json += value
     }

@@ -41,6 +41,18 @@ var _ = Describe("Gosoon serializer", func() {
         })
     })
 
+    Context("Given an object with a string field set to a nondefault value", func() {
+        BeforeEach(func() {
+            object := struct{ Foo string }{}
+            object.Foo = "bar"
+            serialize(&object)
+        })
+        It("Should serialize it as JSON object with one field", func() {
+            Expect(mock.json).To(Equal(`{Foo"bar"}`))
+        })
+    })
+
+
     Context("Given an object with a defaulted integer field", func() {
         BeforeEach(func() {
             serialize(&struct{ Foo int }{})
