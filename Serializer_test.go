@@ -45,7 +45,7 @@ var _ = Describe("Gosoon serializer", func() {
         BeforeEach(func() {
             serialize(&struct{ Foo int }{})
         })
-        It("Should serialize it as JSON object with two fields", func() {
+        It("Should serialize it as JSON object with one field, set to zero", func() {
             Expect(mock.json).To(Equal(`{Foo0}`))
         })
     })
@@ -54,8 +54,19 @@ var _ = Describe("Gosoon serializer", func() {
         BeforeEach(func() {
             serialize(&struct{ Foo bool }{})
         })
-        It("Should serialize it as JSON object with two fields", func() {
+        It("Should serialize it as JSON object with one field, set to false", func() {
             Expect(mock.json).To(Equal(`{Foofalse}`))
+        })
+    })
+
+    Context("Given an object with a boolean field set to true", func() {
+        BeforeEach(func() {
+            object := struct{ Foo bool }{}
+            object.Foo = true
+            serialize(&object)
+        })
+        It("Should serialize it as JSON object with one field, set to true", func() {
+            Expect(mock.json).To(Equal(`{Footrue}`))
         })
     })
 })
