@@ -14,14 +14,19 @@ func MakeSerializer(jsonWriter JsonWriter) func(interface{}) {
             jsonWriter.WriteCommaExceptOnFirstPass()
             field := typeOfObject.Field(i)
             jsonWriter.WriteKey(field.Name)
-            if field.Type.Kind() == reflect.String {
-                jsonWriter.WriteValue(field.Type.Kind(), valueOfObject.Field(i).String())
-            } else if field.Type.Kind() == reflect.Bool {
-                jsonWriter.WriteValue(field.Type.Kind(), fmt.Sprint(valueOfObject.Field(i).Bool()))
-            } else {
-                jsonWriter.WriteValue(field.Type.Kind(), fmt.Sprint(valueOfObject.Field(i).Int()))
-            }
+            kind := field.Type.Kind()
+            jsonWriter.WriteValue(kind, AsJsonString(kind, valueOfObject.Field(i)))
         }
         jsonWriter.EndObject()
     }
+}
+
+func AsJsonString(kind reflect.Kind, value reflect.Value) string {
+    if kind == reflect.String {
+        return value.String()
+    }
+    if kind == reflect.Bool {
+        return fmt.Sprint(value.Bool())
+    }
+    return fmt.Sprint(value.Int())
 }
