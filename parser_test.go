@@ -10,7 +10,6 @@ import (
 var _ = Describe("Json", func() {
     var (
         err error
-        parsed ParsedJson
     )
     Context("Given brutally invalid JSON", func() {
         It("Should error out", func() {
@@ -108,23 +107,6 @@ var _ = Describe("Json", func() {
                 It("Should return an empty string", func() {
                     Expect(parsedJson.AttributeValue("")).To(Equal(""))
                 })
-            })
-        })
-    })
-
-    Context(`Given a JSON object with a key of "", and a value of null`, func() {
-        It(`Should not error out for '{"":null}'`, func() {
-            _, err = Json(`{"":null}`)
-            Expect(err).NotTo(HaveOccurred())
-        })
-        It(`Should not error out for '{<ws>"":null}'`, func() {
-            _, err = Json(`{ "":null}`)
-            Expect(err).NotTo(HaveOccurred())
-        })
-        Describe("AttributeIsNull", func() {
-            XIt(`Should be true for ""`, func() {
-                parsed, err = Json(`{"":null}`)
-                Expect(parsed.AttributeIsNull("")).To(BeTrue())
             })
         })
     })
