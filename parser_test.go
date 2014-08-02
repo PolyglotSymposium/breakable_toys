@@ -90,6 +90,16 @@ var _ = Describe("Json", func() {
         })
     })
 
+    Context("Given a JSON object with at string key and a string field and some whitespace between tokens", func() {
+        parsedJson, _ := Json("{   \"Golang's\"  : \t  \"pretty fun\"\n }")
+
+        Describe("AttributeValue", func() {
+            It("Should be that attribute's value", func() {
+                Expect(parsedJson.AttributeValue("Golang's")).To(Equal("pretty fun"))
+            })
+        })
+    })
+
     Context("Given a JSON object with a string key, and a string field", func() {
         var parsedJson ParsedJson
         var err error

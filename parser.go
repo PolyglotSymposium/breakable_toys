@@ -71,7 +71,9 @@ func (self parser) parse() (json ParsedJson, err error) {
         key, _ := JsonString(self.unparsedJson)
         self.unparsedJson = self.unparsedJson[len(key)+1:len(self.unparsedJson)]
         self.removeCurrentRune()
+        self.swallowWhitespace()
         self.removeCurrentRune()
+        self.swallowWhitespace()
         value, _ := JsonString(self.unparsedJson)
         keyValueMappings[key] = value
         for self.currentRune() != '}' {
