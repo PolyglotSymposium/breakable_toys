@@ -2,6 +2,7 @@ package gosoon
 
 import (
     "errors"
+    _"fmt"
 )
 
 type ParsedJson interface {
@@ -69,16 +70,14 @@ func (self parser) parse() (json ParsedJson, err error) {
 
     if self.runesRemain() && self.currentRune() == '"' {
         key, _ := JsonString(self.unparsedJson)
-        self.unparsedJson = self.unparsedJson[len(key)+1:len(self.unparsedJson)]
-        self.removeCurrentRune()
+        self.unparsedJson = self.unparsedJson[len(key)+2:len(self.unparsedJson)]
         self.swallowWhitespace()
         self.removeCurrentRune()
         self.swallowWhitespace()
         value, _ := JsonString(self.unparsedJson)
+        self.unparsedJson = self.unparsedJson[len(key)+3:len(self.unparsedJson)]
+
         keyValueMappings[key] = value
-        for self.currentRune() != '}' {
-            self.removeCurrentRune()
-        }
     }
 
     self.swallowWhitespaceUntil(func(json string) bool {
