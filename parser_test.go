@@ -108,6 +108,11 @@ var _ = Describe("Json", func() {
                     Expect(parsedJson.AttributeValue("")).To(Equal(""))
                 })
             })
+            Context("Given the key that is in the object", func() {
+                It("Should return the string's value", func() {
+                    Expect(parsedJson.AttributeValue("Kazark")).To(Equal("The Man"))
+                })
+            })
         })
     })
 })

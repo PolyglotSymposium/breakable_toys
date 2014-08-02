@@ -12,10 +12,10 @@ type ParsedJson interface {
 type parser struct {
     unparsedJson string
     savedError error
-    result ParsedJson
 }
 
 type parserResult struct {
+    keyValues map[string]string
 }
 
 type condition func(string) bool
@@ -56,7 +56,8 @@ func JsonString(rawJson string) (stringsValue string, err error) {
 }
 
 func (self parser) parse() (json ParsedJson, err error) {
-    self.result = parserResult{}
+    result := parserResult{}
+    keyValueMappings := map[string]string{}
 
     self.swallowWhitespaceUntil(func(json string) bool {
         return rune(json[0]) == '{'
@@ -67,6 +68,12 @@ func (self parser) parse() (json ParsedJson, err error) {
     self.swallowWhitespace()
 
     if self.runesRemain() && self.currentRune() == '"' {
+        key, _ := JsonString(self.unparsedJson)
+        self.unparsedJson = self.unparsedJson[len(key)+1:len(self.unparsedJson)]
+        self.removeCurrentRune()
+        self.removeCurrentRune()
+        value, _ := JsonString(self.unparsedJson)
+        keyValueMappings[key] = value
         for self.currentRune() != '}' {
             self.removeCurrentRune()
         }
@@ -81,8 +88,13 @@ func (self parser) parse() (json ParsedJson, err error) {
     self.swallowRemainder()
 
     err = self.savedError
-    json = self.result
+    result.setMap(keyValueMappings)
+    json = result
     return
+}
+
+func (self *parserResult) setMap(pairs map[string]string) {
+    self.keyValues = pairs
 }
 
 func (self parserResult) AttributeIsNull(attribute string) bool {
@@ -90,6 +102,11 @@ func (self parserResult) AttributeIsNull(attribute string) bool {
 }
 
 func (self parserResult) AttributeValue(attribute string) string {
+    item, ok := self.keyValues[attribute]
+
+    if ok {
+        return item
+    }
     return ""
 }
 
