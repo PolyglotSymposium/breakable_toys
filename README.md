@@ -7,7 +7,11 @@ It is just a breakable toy by two aspiring Gophers.
 ### How I installed go:
 On Ubuntu 14.04:
 
-    sudo apt-get install golang-go
+```
+sudo apt-get install golang-go
+```
+
+Otherwise, I had to do this monkey business:
 
 ```
 # Get gvm
